@@ -12,6 +12,7 @@ public class AddProductToWishlistUseCaseImpl implements AddProductToWishlistUseC
     @Override
     public Wishlist execute(User user, Product product) {
         if (user != null && product != null && user.isLogged()) {
+
             return new Wishlist();
         }
         return null;

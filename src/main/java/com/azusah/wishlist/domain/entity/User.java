@@ -2,12 +2,14 @@ package com.azusah.wishlist.domain.entity;
 
 public class User {
 
-    private String id;
-    private boolean logged;
+    private final String id;
+    private final boolean logged;
 
-    public User(){
+
+    private User(String id, boolean logged){
+        this.id = id;
+        this.logged = logged;
     }
-
     public String getId() {
         return id;
     }
@@ -16,21 +18,26 @@ public class User {
         return logged;
     }
 
-    public static User builder(){
-        return new User();
+    public static UserBuilder builder() {
+        return new UserBuilder();
     }
 
-    public User id(String id) {
-        this.id = id;
-        return this;
-    }
+    public static class UserBuilder {
+        private String id;
+        private boolean logged;
 
-    public User logged(boolean logged) {
-        this.logged = logged;
-        return this;
-    }
+        public UserBuilder id(String id) {
+            this.id = id;
+            return this;
+        }
 
-    public User build(){
-        return this;
+        public UserBuilder logged(boolean logged) {
+            this.logged = logged;
+            return this;
+        }
+
+        public User build() {
+            return new User(id, logged);
+        }
     }
 }

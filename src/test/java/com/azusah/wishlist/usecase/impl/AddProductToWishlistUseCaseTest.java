@@ -4,9 +4,10 @@ import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.entity.User;
 import com.azusah.wishlist.domain.entity.Wishlist;
 import com.azusah.wishlist.usecase.AddProductToWishlistUseCase;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AddProductToWishlistUseCaseTest {
 
@@ -21,7 +22,6 @@ public class AddProductToWishlistUseCaseTest {
     public void testAddingProductToWishlist() {
 
         //given
-        //Logged User
         var user = User.builder()
                 .id("xyz")
                 .logged(true)
@@ -39,7 +39,7 @@ public class AddProductToWishlistUseCaseTest {
         Wishlist wishlist = addProductToWishlistUseCase.execute(user, product);
 
         //then
-        Assertions.assertThat(wishlist).isNotNull();
+        assertThat(wishlist).isNotNull();
 
     }
 
