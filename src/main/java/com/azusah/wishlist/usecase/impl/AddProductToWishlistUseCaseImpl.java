@@ -3,8 +3,8 @@ package com.azusah.wishlist.usecase.impl;
 import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.entity.User;
 import com.azusah.wishlist.domain.entity.Wishlist;
-import com.azusah.wishlist.gateway.RetrieveWishListGateway;
-import com.azusah.wishlist.gateway.SaveWishListGateway;
+import com.azusah.wishlist.gateway.RetrieveWishlistGateway;
+import com.azusah.wishlist.gateway.SaveWishlistGateway;
 import com.azusah.wishlist.usecase.AddProductToWishlistUseCase;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +15,11 @@ import java.util.Optional;
 public class AddProductToWishlistUseCaseImpl implements AddProductToWishlistUseCase {
 
     private final static Integer WISHLIST_MAX_LIMIT = 20;
-    private final RetrieveWishListGateway retrieveWishListGateway;
-    private final SaveWishListGateway saveWishListGateway;
+    private final RetrieveWishlistGateway retrieveWishListGateway;
+    private final SaveWishlistGateway saveWishListGateway;
 
-    public AddProductToWishlistUseCaseImpl(RetrieveWishListGateway retrieveWishListGateway,
-                                           SaveWishListGateway saveWishListGateway) {
+    public AddProductToWishlistUseCaseImpl(RetrieveWishlistGateway retrieveWishListGateway,
+                                           SaveWishlistGateway saveWishListGateway) {
         this.retrieveWishListGateway = retrieveWishListGateway;
         this.saveWishListGateway = saveWishListGateway;
     }

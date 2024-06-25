@@ -2,60 +2,78 @@ package com.azusah.wishlist.domain.entity;
 
 public class Product {
 
-    private String id;
-    private String name;
-    private String image;
-    private String value;
-    private String link;
+    private final String id;
+    private final String name;
+    private final String image;
+    private final String value;
+    private final String link;
 
-    public Product() {
+    public String getId() {
+        return id;
     }
 
-    public Product(String id, String name, String image, String value, String link) {
-        this.id = id;
-        this.name = name;
-        this.image = image;
-        this.value = value;
-        this.link = link;
+    public String getName() {
+        return name;
     }
 
-    public Product(String name, String image, String value, String link) {
-        this.name = name;
-        this.image = image;
-        this.value = value;
-        this.link = link;
+    public String getImage() {
+        return image;
     }
 
-    public static Product builder() {
-        return new Product();
+    public String getValue() {
+        return value;
     }
 
-    public Product id(String id) {
-        this.id = id;
-        return this;
+    public String getLink() {
+        return link;
     }
 
-    public Product name(String name) {
-        this.name = name;
-        return this;
+    public Product(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.image = builder.image;
+        this.value = builder.value;
+        this.link = builder.link;
     }
 
-    public Product image(String image) {
-        this.image = image;
-        return this;
+    public static Builder builder() {
+        return new Builder();
     }
 
-    public Product value(String value) {
-        this.value = value;
-        return this;
-    }
+    public static class Builder {
+        private String id;
+        private String name;
+        private String image;
+        private String value;
+        private String link;
 
-    public Product link(String link) {
-        this.link = link;
-        return this;
-    }
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
 
-    public Product build() {
-        return this;
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder image(String image) {
+            this.image = image;
+            return this;
+        }
+
+        public Builder value(String value) {
+            this.value = value;
+            return this;
+        }
+
+        public Builder link(String link) {
+            this.link = link;
+            return this;
+        }
+
+        public Product build() {
+            return new Product(this);
+        }
     }
 }

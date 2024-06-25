@@ -3,8 +3,8 @@ package com.azusah.wishlist.usecase.impl;
 import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.entity.User;
 import com.azusah.wishlist.domain.entity.Wishlist;
-import com.azusah.wishlist.infrastructure.service.RetrieveWishListGatewayImpl;
-import com.azusah.wishlist.infrastructure.service.SaveWishListGatewayImpl;
+import com.azusah.wishlist.infrastructure.service.RetrieveWishlistGatewayImpl;
+import com.azusah.wishlist.infrastructure.service.SaveWishlistGatewayImpl;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,10 +26,10 @@ public class AddProductToWishlistUseCaseTest {
     private AddProductToWishlistUseCaseImpl addProductToWishlistUseCase;
 
     @Mock
-    private SaveWishListGatewayImpl saveWishListGateway;
+    private SaveWishlistGatewayImpl saveWishListGateway;
 
     @Mock
-    private RetrieveWishListGatewayImpl retrieveWishListGateway;
+    private RetrieveWishlistGatewayImpl retrieveWishListGateway;
 
     @Test
     public void testAddingProductToANewWishlist() {

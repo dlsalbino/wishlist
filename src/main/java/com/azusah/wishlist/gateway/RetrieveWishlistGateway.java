@@ -4,6 +4,6 @@ import com.azusah.wishlist.domain.entity.Wishlist;
 
 import java.util.Optional;
 
-public interface RetrieveWishListGateway {
+public interface RetrieveWishlistGateway {
     Optional<Wishlist> findWishlistByUser(String id);
 }

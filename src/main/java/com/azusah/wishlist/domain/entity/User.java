@@ -5,39 +5,42 @@ public class User {
     private final String id;
     private final boolean logged;
 
-
-    private User(String id, boolean logged){
-        this.id = id;
-        this.logged = logged;
+    public User(Builder builder) {
+        this.id = builder.id;
+        this.logged = builder.logged;
     }
+
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public boolean isLogged() {
-        return logged;
+        return this.logged;
     }
 
-    public static UserBuilder builder() {
-        return new UserBuilder();
+    public static Builder builder(){
+        return new Builder();
     }
 
-    public static class UserBuilder {
+    public static class Builder {
         private String id;
         private boolean logged;
 
-        public UserBuilder id(String id) {
+        private Builder(){
+        }
+
+        public Builder id(String id) {
             this.id = id;
             return this;
         }
 
-        public UserBuilder logged(boolean logged) {
+        public Builder logged(boolean logged) {
             this.logged = logged;
             return this;
         }
 
         public User build() {
-            return new User(id, logged);
+            return new User(this);
         }
     }
 }
