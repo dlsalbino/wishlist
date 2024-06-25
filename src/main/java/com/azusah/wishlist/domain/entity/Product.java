@@ -8,6 +8,18 @@ public class Product {
     private final String value;
     private final String link;
 
+    public Product(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.image = builder.image;
+        this.value = builder.value;
+        this.link = builder.link;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public String getId() {
         return id;
     }
@@ -28,16 +40,14 @@ public class Product {
         return link;
     }
 
-    public Product(Builder builder) {
-        this.id = builder.id;
-        this.name = builder.name;
-        this.image = builder.image;
-        this.value = builder.value;
-        this.link = builder.link;
-    }
-
-    public static Builder builder() {
-        return new Builder();
+    @Override
+    public int hashCode() {
+        int result = 31 * getId().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getImage().hashCode();
+        result = 31 * result + getValue().hashCode();
+        result = 31 * result + getLink().hashCode();
+        return result;
     }
 
     public static class Builder {
