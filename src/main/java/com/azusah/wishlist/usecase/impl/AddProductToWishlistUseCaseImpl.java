@@ -1,15 +1,15 @@
 package com.azusah.wishlist.usecase.impl;
 
 import com.azusah.wishlist.domain.entity.Product;
-import com.azusah.wishlist.domain.entity.User;
 import com.azusah.wishlist.domain.entity.Wishlist;
 import com.azusah.wishlist.gateway.RetrieveWishlistGateway;
 import com.azusah.wishlist.gateway.SaveWishlistGateway;
 import com.azusah.wishlist.usecase.AddProductToWishlistUseCase;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Optional;
+
+import static java.util.Objects.nonNull;
 
 @Component
 public class AddProductToWishlistUseCaseImpl implements AddProductToWishlistUseCase {
@@ -25,9 +25,9 @@ public class AddProductToWishlistUseCaseImpl implements AddProductToWishlistUseC
     }
 
     @Override
-    public Wishlist execute(User user, Product product) {
-        if (user != null && user.isLogged() && product != null) {
-            Optional<Wishlist> retrievedWishlist = retrieveWishListGateway.findWishlistByUser(user.getId());
+    public Wishlist execute(String userId, Product product) {
+        if (nonNull(userId) && nonNull(product)) {
+            Optional<Wishlist> retrievedWishlist = retrieveWishListGateway.findWishlistByUser(userId);
             if (retrievedWishlist.isPresent()) {
                 var wishlist = retrievedWishlist.get();
                 if (wishlist.getProducts().size() < WISHLIST_MAX_LIMIT) {
@@ -37,10 +37,7 @@ public class AddProductToWishlistUseCaseImpl implements AddProductToWishlistUseC
                     throw new RuntimeException("A lista atingiu o limite de " + WISHLIST_MAX_LIMIT + " produtos.");
                 }
             } else {
-                var products = new HashSet<Product>();
-                products.add(product);
-                Wishlist wishlist = new Wishlist(user, products);
-                return saveWishListGateway.save(wishlist);
+                return saveWishListGateway.save(userId, product);
             }
         }
         return null;

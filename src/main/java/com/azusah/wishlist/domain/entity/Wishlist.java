@@ -4,63 +4,57 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Wishlist {
-    private String id;
-    private User user;
+    private String userId;
     private Set<Product> products = new HashSet<>();
 
-    public Wishlist() {
+    public Wishlist(String userId, Product product) {
+        this.userId = userId;
+        this.products.add(product);
     }
 
-    public Wishlist(User user, Set<Product> products) {
-        this.user = user;
-        this.products = products;
+    public Wishlist(String userId, Set<Product> products) {
+        this.userId = userId;
+        this.products.addAll(products);
     }
 
     private Wishlist(Builder builder) {
-        this.user = builder.user;
-        this.id = builder.id;
+        this.userId = builder.userId;
         this.products = builder.products;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
     }
 
     public static Builder builder() {
         return new Builder();
     }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void addProducts(Set<Product> products) {
+        this.products.addAll(products);
+    }
+
+    public void addProduct(Product product) {
+        this.products.add(product);
+    }
+
     public static class Builder {
-        private String id;
-        private User user;
+        private String userId;
         private Set<Product> products = new HashSet<>();
 
         private Builder() {
         }
 
-        public Builder id(String id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder user(User user) {
-            this.user = user;
+        public Builder userId(String userId) {
+            this.userId = userId;
             return this;
         }
 
@@ -72,6 +66,5 @@ public class Wishlist {
         public Wishlist build() {
             return new Wishlist(this);
         }
-
     }
 }
