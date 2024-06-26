@@ -2,6 +2,7 @@ package com.azusah.wishlist.usecase.impl;
 
 import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.entity.Wishlist;
+import com.azusah.wishlist.domain.exception.WishlistLimitAchievedException;
 import com.azusah.wishlist.infrastructure.service.RetrieveWishlistGatewayImpl;
 import com.azusah.wishlist.infrastructure.service.SaveWishlistGatewayImpl;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -130,9 +131,9 @@ public class AddProductToWishlistUseCaseTest {
                 .thenReturn(Optional.of(new Wishlist(userId, getProductListWith(20))));
 
         //when | then
-        assertThrows(RuntimeException.class,
+        assertThrows(WishlistLimitAchievedException.class,
                 () -> addProductToWishlistUseCase.execute(userId, product),
-                "A lista atingiu o limite de 20 produtos.");
+                "The Wishlist has achieved the limit of 20 products.");
     }
 
     private HashSet<Product> getProductListWith(Integer products) {
@@ -142,7 +143,7 @@ public class AddProductToWishlistUseCaseTest {
                     .id(RandomStringUtils.randomAlphanumeric(10))
                     .name(RandomStringUtils.randomAlphanumeric(20))
                     .image(RandomStringUtils.randomAlphanumeric(30))
-                    .value(RandomStringUtils.randomNumeric(1, 5))
+                    .value(RandomStringUtils.randomNumeric(3, 5))
                     .link(RandomStringUtils.randomAlphanumeric(50))
                     .build());
         }

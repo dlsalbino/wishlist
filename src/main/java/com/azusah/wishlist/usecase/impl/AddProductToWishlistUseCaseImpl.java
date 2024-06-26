@@ -2,6 +2,7 @@ package com.azusah.wishlist.usecase.impl;
 
 import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.entity.Wishlist;
+import com.azusah.wishlist.domain.exception.WishlistLimitAchievedException;
 import com.azusah.wishlist.gateway.RetrieveWishlistGateway;
 import com.azusah.wishlist.gateway.SaveWishlistGateway;
 import com.azusah.wishlist.usecase.AddProductToWishlistUseCase;
@@ -34,7 +35,7 @@ public class AddProductToWishlistUseCaseImpl implements AddProductToWishlistUseC
                     wishlist.getProducts().add(product);
                     return wishlist;
                 } else {
-                    throw new RuntimeException("A lista atingiu o limite de " + WISHLIST_MAX_LIMIT + " produtos.");
+                    throw new WishlistLimitAchievedException("The Wishlist has achieved the limit of " + WISHLIST_MAX_LIMIT + " products.");
                 }
             } else {
                 return saveWishListGateway.save(userId, product);

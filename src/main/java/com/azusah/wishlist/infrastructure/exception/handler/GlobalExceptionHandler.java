@@ -1,5 +1,6 @@
 package com.azusah.wishlist.infrastructure.exception.handler;
 
+import com.azusah.wishlist.domain.exception.WishlistLimitAchievedException;
 import com.azusah.wishlist.infrastructure.exception.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,4 +26,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(WishlistLimitAchievedException.class)
+    public ResponseEntity<Object> handleWishlistLimitAchievedExceptions(WishlistLimitAchievedException ex) {
+        List<String> details = Collections.singletonList(ex.getMessage());
+        ErrorResponse error = new ErrorResponse("Full Wishlist", details);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 }
