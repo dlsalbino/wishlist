@@ -1,19 +1,22 @@
 package com.azusah.wishlist.infrastructure.controller.resources.request;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class AddProductRequest {
 
-    @NotNull
+    @NotBlank(message = "'userId' is required")
     private String userId;
 
-    @NotNull(message = "Produto é obrigatório!")
+    @Valid
+    @NotNull(message = "'product' is required")
     private ProductRequest product;
 
     public AddProductRequest() {
     }
 
-    public @NotNull String getUserId() {
+    public String getUserId() {
         return userId;
     }
 
