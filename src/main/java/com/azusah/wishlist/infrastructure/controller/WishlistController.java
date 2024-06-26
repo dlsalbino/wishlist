@@ -1,6 +1,7 @@
 package com.azusah.wishlist.infrastructure.controller;
 
 import com.azusah.wishlist.infrastructure.controller.resources.request.AddProductRequest;
+import com.azusah.wishlist.infrastructure.controller.resources.response.AddProductResponse;
 import com.azusah.wishlist.infrastructure.mapper.DomainEntityMapper;
 import com.azusah.wishlist.usecase.AddProductToWishlistUseCase;
 import jakarta.validation.Valid;
@@ -29,15 +30,16 @@ public class WishlistController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addProduct(@Valid @RequestBody AddProductRequest request) {
+    public ResponseEntity<AddProductResponse> addProduct(@Valid @RequestBody AddProductRequest request) {
         String userId = request.getUserId();
         log.info("Adicionar produto '{}' a Wishlist do cliente '{}'", request.getProduct().id(), userId);
 
         var wishlist = useCase.execute(userId, mapper.toProduct(request));
+        var addProductResponse = mapper.toResponse(wishlist);
 
         log.info("Produto '{}' adicionado a Wishlist do cliente '{}'",
                 request.getProduct().id(), wishlist.getUserId());
-        return new ResponseEntity<>(wishlist, HttpStatus.CREATED);
+        return new ResponseEntity<>(addProductResponse, HttpStatus.CREATED);
     }
 
 }
