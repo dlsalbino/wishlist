@@ -7,6 +7,7 @@ import com.azusah.wishlist.infrastructure.controller.resources.response.AddProdu
 import com.azusah.wishlist.infrastructure.controller.resources.response.ProductResponse;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,5 +30,17 @@ public class DomainEntityMapper {
                             item.getId(), item.getName(), item.getImage(), item.getValue(), item.getLink()
                     );
                 }).collect(Collectors.toSet()));
+    }
+
+    public Set<ProductResponse> toProductResponse(Set<Product> products) {
+        return products
+                .stream()
+                .map(product -> new ProductResponse(
+                        product.getId(),
+                        product.getName(),
+                        product.getImage(),
+                        product.getValue(),
+                        product.getLink()))
+                .collect(Collectors.toSet());
     }
 }

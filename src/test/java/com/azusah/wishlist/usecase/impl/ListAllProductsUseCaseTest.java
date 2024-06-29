@@ -1,6 +1,7 @@
 package com.azusah.wishlist.usecase.impl;
 
 import com.azusah.wishlist.domain.entity.Product;
+import com.azusah.wishlist.domain.exception.EmptyProductListException;
 import com.azusah.wishlist.infrastructure.service.RetrieveProductsGatewayImpl;
 import com.azusah.wishlist.usecase.mock.ProductMock;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -38,5 +40,18 @@ public class ListAllProductsUseCaseTest {
         assertThat(retrievedProducts)
                 .isNotNull()
                 .hasSize(5);
+    }
+
+    @Test
+    public void testUserIdWithoutProductsToList() {
+        //given
+        var userId = "123456";
+        var products = ProductMock.getProductListWith(0);
+        when(retrievedProducts.findAllByUser(anyString())).thenReturn(products);
+
+        //when | then
+        assertThrows(EmptyProductListException.class,
+                () -> listAllProductsUseCase.execute(userId),
+                "There is no products for client '123456'.");
     }
 }

@@ -1,6 +1,7 @@
 package com.azusah.wishlist.usecase.impl;
 
 import com.azusah.wishlist.domain.entity.Product;
+import com.azusah.wishlist.domain.exception.EmptyProductListException;
 import com.azusah.wishlist.gateway.RetrieveProductsGateway;
 import com.azusah.wishlist.usecase.ListAllProductsUseCase;
 import org.slf4j.Logger;
@@ -23,8 +24,11 @@ public class ListAllProductsUseCaseImpl implements ListAllProductsUseCase {
 
     @Override
     public Set<Product> execute(String userId) {
-        Set<Product> allByUser = retrieveProductsGateway.findAllByUser(userId);
-        log.info("Retrieved {} products from client '{}'", allByUser.size(), userId);
-        return allByUser;
+        Set<Product> products = retrieveProductsGateway.findAllByUser(userId);
+        if (products.isEmpty())
+            throw new EmptyProductListException("There is no products for client '" + userId + "'.");
+
+        log.info("Retrieved {} products from client '{}'", products.size(), userId);
+        return products;
     }
 }
