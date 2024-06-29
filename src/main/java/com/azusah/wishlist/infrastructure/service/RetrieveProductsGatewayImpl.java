@@ -27,7 +27,7 @@ public class RetrieveProductsGatewayImpl implements RetrieveProductsGateway {
         return wishlistRepository.findByUserId(userId)
                 .map(entity -> entity.getProducts()
                         .stream()
-                        .map(mapper::fromEntity)
+                        .map(mapper::toProduct)
                         .collect(Collectors.toSet())
                 )
                 .orElseGet(Set::of);

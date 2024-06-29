@@ -4,6 +4,7 @@ import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.exception.EmptyProductListException;
 import com.azusah.wishlist.infrastructure.service.RetrieveProductsGatewayImpl;
 import com.azusah.wishlist.usecase.mock.ProductMock;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,6 +28,7 @@ public class ListAllProductsUseCaseTest {
     private RetrieveProductsGatewayImpl retrievedProducts;
 
     @Test
+    @DisplayName("Given an userId should return product list when userId was found.")
     public void testListAllProducts() {
         //given
         var userId = "123456";
@@ -43,6 +45,7 @@ public class ListAllProductsUseCaseTest {
     }
 
     @Test
+    @DisplayName("Given an userId should throw an exception when userId was not found.")
     public void testUserIdWithoutProductsToList() {
         //given
         var userId = "123456";

@@ -3,9 +3,9 @@ package com.azusah.wishlist.usecase.impl;
 import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.entity.Wishlist;
 import com.azusah.wishlist.domain.exception.WishlistLimitAchievedException;
-import com.azusah.wishlist.infrastructure.service.RetrieveWishlistGatewayImpl;
-import com.azusah.wishlist.infrastructure.service.SaveWishlistGatewayImpl;
-import org.apache.commons.lang3.RandomStringUtils;
+import com.azusah.wishlist.infrastructure.service.PersistenceGatewayImpl;
+import com.azusah.wishlist.usecase.mock.ProductMock;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,12 +28,10 @@ public class AddProductToWishlistUseCaseTest {
     private AddProductToWishlistUseCaseImpl addProductToWishlistUseCase;
 
     @Mock
-    private SaveWishlistGatewayImpl saveWishListGateway;
-
-    @Mock
-    private RetrieveWishlistGatewayImpl retrieveWishListGateway;
+    private PersistenceGatewayImpl persistenceGateway;
 
     @Test
+    @DisplayName("Given an userId and product should return a new Wishlist with one product.")
     public void testAddingProductToANewWishlist() {
 
         //given
@@ -47,11 +45,11 @@ public class AddProductToWishlistUseCaseTest {
                 .link("http://e-commerce/products/12345")
                 .build();
 
-        when(retrieveWishListGateway.findWishlistByUser(anyString())).thenReturn(Optional.empty());
+        when(persistenceGateway.findWishlistByUser(anyString())).thenReturn(Optional.empty());
 
         var products = new HashSet<Product>();
         products.add(product);
-        when(saveWishListGateway.save(anyString(), any(Product.class)))
+        when(persistenceGateway.save(anyString(), any(Product.class)))
                 .thenReturn(Wishlist.builder().userId(userId).products(products).build());
 
         //when
@@ -65,6 +63,7 @@ public class AddProductToWishlistUseCaseTest {
     }
 
     @Test
+    @DisplayName("Given an userId and product should return an existent wishlist containing the new product")
     public void testAddingProductToAExistingWishlist() {
 
         //given
@@ -77,10 +76,10 @@ public class AddProductToWishlistUseCaseTest {
                 .value("12345.00")
                 .link("http://e-commerce/products/12345")
                 .build();
-        when(retrieveWishListGateway.findWishlistByUser(anyString()))
-                .thenReturn(Optional.of(new Wishlist(userId, getProductListWith(4))));
-        when(saveWishListGateway.addProduct(anyString(), any(Product.class)))
-                .thenReturn(new Wishlist(userId, getProductListWith(5)));
+        when(persistenceGateway.findWishlistByUser(anyString()))
+                .thenReturn(Optional.of(new Wishlist(userId, ProductMock.getProductListWith(4))));
+        when(persistenceGateway.addProduct(anyString(), any(Product.class)))
+                .thenReturn(new Wishlist(userId, ProductMock.getProductListWith(5)));
 
         //when
         Wishlist wishlist = addProductToWishlistUseCase.execute(userId, product);
@@ -93,6 +92,8 @@ public class AddProductToWishlistUseCaseTest {
     }
 
     @Test
+    @DisplayName("Given an userId and product should throw an exception" +
+            "when the list size was greater than or equal to 20")
     public void testNoAddingProductToWishlistWhenWishListIsFull() {
 
         //given
@@ -106,26 +107,12 @@ public class AddProductToWishlistUseCaseTest {
                 .link("http://e-commerce/products/12345")
                 .build();
 
-        when(retrieveWishListGateway.findWishlistByUser(anyString()))
-                .thenReturn(Optional.of(new Wishlist(userId, getProductListWith(20))));
+        when(persistenceGateway.findWishlistByUser(anyString()))
+                .thenReturn(Optional.of(new Wishlist(userId, ProductMock.getProductListWith(20))));
 
         //when | then
         assertThrows(WishlistLimitAchievedException.class,
                 () -> addProductToWishlistUseCase.execute(userId, product),
                 "The Wishlist has achieved the limit of 20 products.");
-    }
-
-    private HashSet<Product> getProductListWith(Integer products) {
-        HashSet<Product> productsList = new HashSet<>();
-        for (int i = 0; i < products; i++) {
-            productsList.add(Product.builder()
-                    .id(RandomStringUtils.randomAlphanumeric(10))
-                    .name(RandomStringUtils.randomAlphanumeric(20))
-                    .image(RandomStringUtils.randomAlphanumeric(30))
-                    .value(RandomStringUtils.randomNumeric(3, 5))
-                    .link(RandomStringUtils.randomAlphanumeric(50))
-                    .build());
-        }
-        return productsList;
     }
 }
