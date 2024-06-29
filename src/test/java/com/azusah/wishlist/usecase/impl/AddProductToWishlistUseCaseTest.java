@@ -6,7 +6,6 @@ import com.azusah.wishlist.domain.exception.WishlistLimitAchievedException;
 import com.azusah.wishlist.infrastructure.service.RetrieveWishlistGatewayImpl;
 import com.azusah.wishlist.infrastructure.service.SaveWishlistGatewayImpl;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -80,6 +79,8 @@ public class AddProductToWishlistUseCaseTest {
                 .build();
         when(retrieveWishListGateway.findWishlistByUser(anyString()))
                 .thenReturn(Optional.of(new Wishlist(userId, getProductListWith(4))));
+        when(saveWishListGateway.addProduct(anyString(), any(Product.class)))
+                .thenReturn(new Wishlist(userId, getProductListWith(5)));
 
         //when
         Wishlist wishlist = addProductToWishlistUseCase.execute(userId, product);
@@ -89,28 +90,6 @@ public class AddProductToWishlistUseCaseTest {
         assertThat(wishlist.getProducts())
                 .isNotEmpty()
                 .hasSize(5);
-    }
-
-    @Test
-    @Disabled
-    public void testNoAddingProductToWishlistWhenUserIsNotLogged() {
-
-        //given
-        var userId = "xyz";
-
-        var product = Product.builder()
-                .id("xyz")
-                .name("xyz")
-                .image("http://image.address.com/12345")
-                .value("12345.00")
-                .link("http://e-commerce/products/12345")
-                .build();
-
-        //when
-        Wishlist wishlist = addProductToWishlistUseCase.execute(userId, product);
-
-        //then
-        assertThat(wishlist).isNull();
     }
 
     @Test
@@ -149,5 +128,4 @@ public class AddProductToWishlistUseCaseTest {
         }
         return productsList;
     }
-
 }

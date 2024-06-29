@@ -7,5 +7,6 @@ public interface SaveWishlistGateway {
 
     Wishlist save(String userId, Product product);
 
+    Wishlist addProduct(String userId, Product product);
 }
 

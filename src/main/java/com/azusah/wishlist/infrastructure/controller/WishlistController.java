@@ -32,13 +32,11 @@ public class WishlistController {
     @PostMapping
     public ResponseEntity<AddProductResponse> addProduct(@Valid @RequestBody AddProductRequest request) {
         String userId = request.getUserId();
-        log.info("Adding product '{}' to Wishlist of client '{}'", request.getProduct().id(), userId);
-
+        String productId = request.getProduct().id();
+        log.info("START: Adding product '{}' to Wishlist of client '{}' process.", productId, userId);
         var wishlist = useCase.execute(userId, mapper.toProduct(request));
         var addProductResponse = mapper.toResponse(wishlist);
-
-        log.info("Product '{}' added to Wishlist of client '{}'",
-                request.getProduct().id(), wishlist.getUserId());
+        log.info("END: Adding product '{}' to Wishlist of client '{}' process.", productId, userId);
         return new ResponseEntity<>(addProductResponse, HttpStatus.CREATED);
     }
 

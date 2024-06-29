@@ -1,6 +1,7 @@
 package com.azusah.wishlist.infrastructure.exception.handler;
 
 import com.azusah.wishlist.domain.exception.WishlistLimitAchievedException;
+import com.azusah.wishlist.domain.exception.WishlistUpdateException;
 import com.azusah.wishlist.infrastructure.exception.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +32,12 @@ public class GlobalExceptionHandler {
         List<String> details = Collections.singletonList(ex.getMessage());
         ErrorResponse error = new ErrorResponse("Full Wishlist", details);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(WishlistUpdateException.class)
+    public ResponseEntity<Object> handleWishlistUpdateExceptions(WishlistUpdateException ex) {
+        List<String> details = Collections.singletonList(ex.getCause().getMessage());
+        ErrorResponse error = new ErrorResponse("Update Wishlist failed", details);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
