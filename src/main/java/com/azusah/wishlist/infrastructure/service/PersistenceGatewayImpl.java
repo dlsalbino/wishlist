@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class PersistenceGatewayImpl implements PersistenceGateway {
@@ -27,7 +28,6 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
         this.repository = repository;
         this.mapper = mapper;
     }
-
 
     @Override
     public Wishlist save(String userId, Product product) {
@@ -65,8 +65,14 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
     }
 
     @Override
-    public Set<Product> findAllByUser(String userId) {
-        return Set.of();
+    public Set<Product> findAllProductsByUser(String userId) {
+        return repository.findByUserId(userId)
+                .map(entity -> entity.getProducts()
+                        .stream()
+                        .map(mapper::toProduct)
+                        .collect(Collectors.toSet())
+                )
+                .orElseGet(Set::of);
     }
 
     @Override

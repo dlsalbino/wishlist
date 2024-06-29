@@ -2,7 +2,7 @@ package com.azusah.wishlist.usecase.impl;
 
 import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.exception.EmptyProductListException;
-import com.azusah.wishlist.infrastructure.service.RetrieveProductsGatewayImpl;
+import com.azusah.wishlist.infrastructure.service.PersistenceGatewayImpl;
 import com.azusah.wishlist.usecase.mock.ProductMock;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ public class ListAllProductsUseCaseTest {
     private ListAllProductsUseCaseImpl listAllProductsUseCase;
 
     @Mock
-    private RetrieveProductsGatewayImpl retrievedProducts;
+    private PersistenceGatewayImpl persistenceGateway;
 
     @Test
     @DisplayName("Given an userId should return product list when userId was found.")
@@ -33,7 +33,7 @@ public class ListAllProductsUseCaseTest {
         //given
         var userId = "123456";
         var products = ProductMock.getProductListWith(5);
-        when(retrievedProducts.findAllByUser(anyString())).thenReturn(products);
+        when(persistenceGateway.findAllProductsByUser(anyString())).thenReturn(products);
 
         //when
         Set<Product> retrievedProducts = listAllProductsUseCase.execute(userId);
@@ -50,7 +50,7 @@ public class ListAllProductsUseCaseTest {
         //given
         var userId = "123456";
         var products = ProductMock.getProductListWith(0);
-        when(retrievedProducts.findAllByUser(anyString())).thenReturn(products);
+        when(persistenceGateway.findAllProductsByUser(anyString())).thenReturn(products);
 
         //when | then
         assertThrows(EmptyProductListException.class,
