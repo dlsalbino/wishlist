@@ -1,5 +1,6 @@
 package com.azusah.wishlist.infrastructure.exception.handler;
 
+import com.azusah.wishlist.domain.exception.EmptyProductListException;
 import com.azusah.wishlist.domain.exception.WishlistLimitAchievedException;
 import com.azusah.wishlist.domain.exception.WishlistUpdateException;
 import com.azusah.wishlist.infrastructure.exception.response.ErrorResponse;
@@ -38,6 +39,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleWishlistUpdateExceptions(WishlistUpdateException ex) {
         List<String> details = Collections.singletonList(ex.getCause().getMessage());
         ErrorResponse error = new ErrorResponse("Update Wishlist failed", details);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(EmptyProductListException.class)
+    public ResponseEntity<Object> handleEmptyProductListExceptions(EmptyProductListException ex) {
+        List<String> details = Collections.singletonList(ex.getMessage());
+        ErrorResponse error = new ErrorResponse("Retrieve products failed", details);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

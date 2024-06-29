@@ -23,16 +23,7 @@ public class PersistenceEntityMapper {
         );
     }
 
-    public ProductEntity from(Product product) {
-        return new ProductEntity(
-                product.getId(),
-                product.getName(),
-                product.getImage(),
-                product.getValue(),
-                product.getLink());
-    }
-
-    public Wishlist toWishlistModel(WishlistEntity entity) {
+    public Wishlist toWishlist(WishlistEntity entity) {
         return Wishlist.builder()
                 .userId(entity.getUserId())
                 .products(entity.getProducts().stream()
@@ -44,6 +35,25 @@ public class PersistenceEntityMapper {
                                 .link(productEntity.getLink())
                                 .build())
                         .collect(Collectors.toSet()))
+                .build();
+    }
+
+    public ProductEntity toProductEntity(Product product) {
+        return new ProductEntity(
+                product.getId(),
+                product.getName(),
+                product.getImage(),
+                product.getValue(),
+                product.getLink());
+    }
+
+    public Product toProduct(ProductEntity entity) {
+        return Product.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .image(entity.getImage())
+                .value(entity.getValue())
+                .link(entity.getLink())
                 .build();
     }
 }
