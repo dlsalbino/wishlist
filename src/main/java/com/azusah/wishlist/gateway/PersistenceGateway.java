@@ -12,8 +12,9 @@ public interface PersistenceGateway {
 
     Wishlist addProduct(String userId, Product product);
 
+    Wishlist removeProduct(String userId, Product product);
+
     Set<Product> findAllProductsByUser(String userId);
 
     Optional<Wishlist> findWishlistByUser(String id);
-
 }

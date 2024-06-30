@@ -3,8 +3,9 @@ package com.azusah.wishlist.infrastructure.mapper;
 import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.entity.Wishlist;
 import com.azusah.wishlist.infrastructure.controller.resources.request.AddProductRequest;
-import com.azusah.wishlist.infrastructure.controller.resources.response.AddProductResponse;
+import com.azusah.wishlist.infrastructure.controller.resources.request.ProductRequest;
 import com.azusah.wishlist.infrastructure.controller.resources.response.ProductResponse;
+import com.azusah.wishlist.infrastructure.controller.resources.response.WishlistResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -23,8 +24,18 @@ public class DomainEntityMapper {
                 .build();
     }
 
-    public AddProductResponse toResponse(Wishlist wishlist) {
-        return new AddProductResponse(wishlist.getUserId(),
+    public Product toProduct(ProductRequest request) {
+        return Product.builder()
+                .id(request.id())
+                .name(request.name())
+                .value(request.value())
+                .image(request.image())
+                .link(request.link())
+                .build();
+    }
+
+    public WishlistResponse toResponse(Wishlist wishlist) {
+        return new WishlistResponse(wishlist.getUserId(),
                 wishlist.getProducts().stream().map((item) -> {
                     return new ProductResponse(
                             item.getId(), item.getName(), item.getImage(), item.getValue(), item.getLink()

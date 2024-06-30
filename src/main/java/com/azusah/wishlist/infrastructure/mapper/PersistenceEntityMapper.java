@@ -56,4 +56,13 @@ public class PersistenceEntityMapper {
                 .link(entity.getLink())
                 .build();
     }
+
+    public WishlistEntity toWishlistEntity(Wishlist wishlist) {
+        return new WishlistEntity(wishlist.getUserId(),
+                wishlist.getProducts()
+                        .stream()
+                        .map(this::toProductEntity)
+                        .collect(Collectors.toSet())
+        );
+    }
 }

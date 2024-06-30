@@ -2,6 +2,7 @@ package com.azusah.wishlist.infrastructure.service;
 
 import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.entity.Wishlist;
+import com.azusah.wishlist.domain.exception.WishlistNotFoundException;
 import com.azusah.wishlist.domain.exception.WishlistUpdateException;
 import com.azusah.wishlist.gateway.PersistenceGateway;
 import com.azusah.wishlist.infrastructure.mapper.PersistenceEntityMapper;
@@ -34,6 +35,19 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
         WishlistEntity savedWishlist = repository.save(mapper.toWishlistEntity(userId, product));
         log.info("Wishlist '{}' created to client '{}'", savedWishlist.getId(), savedWishlist.getUserId());
         return mapper.toWishlist(savedWishlist);
+    }
+
+    @Override
+    public Wishlist removeProduct(String userId, Product product) {
+        Optional<WishlistEntity> optionalWishlistEntity = repository.findByUserId(userId);
+        if (optionalWishlistEntity.isPresent()) {
+            WishlistEntity wishlistEntity = optionalWishlistEntity.get();
+            wishlistEntity.getProducts().remove(mapper.toProductEntity(product));
+            return mapper.toWishlist(repository.save(wishlistEntity));
+        } else {
+            var message = "Not found wishlist for client '" + userId + "'.";
+            throw new WishlistNotFoundException(message);
+        }
     }
 
     @Override
@@ -72,7 +86,7 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
                         .map(mapper::toProduct)
                         .collect(Collectors.toSet())
                 )
-                .orElseGet(Set::of);
+                .orElseGet(Set::of); //TODO: change return
     }
 
     @Override

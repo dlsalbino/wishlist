@@ -1,5 +1,7 @@
 package com.azusah.wishlist.domain.entity;
 
+import java.util.Objects;
+
 public class Product {
 
     private final String id;
@@ -41,13 +43,31 @@ public class Product {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id)
+                && Objects.equals(name, product.name)
+                && Objects.equals(image, product.image)
+                && Objects.equals(value, product.value)
+                && Objects.equals(link, product.link);
+    }
+
+    @Override
     public int hashCode() {
-        int result = 31 * getId().hashCode();
-        result = 31 * result + getName().hashCode();
-        result = 31 * result + getImage().hashCode();
-        result = 31 * result + getValue().hashCode();
-        result = 31 * result + getLink().hashCode();
-        return result;
+        return Objects.hash(id, name, image, value, link);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", value='" + value + '\'' +
+                ", link='" + link + '\'' +
+                '}';
     }
 
     public static class Builder {

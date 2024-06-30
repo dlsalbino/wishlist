@@ -3,11 +3,11 @@ package com.azusah.wishlist.infrastructure.controller.resources.response;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AddProductResponse {
+public class WishlistResponse {
     private String userId;
     private Set<ProductResponse> products = new HashSet<>();
 
-    public AddProductResponse(String userId, Set<ProductResponse> products) {
+    public WishlistResponse(String userId, Set<ProductResponse> products) {
         this.userId = userId;
         this.products = products;
     }
