@@ -35,7 +35,7 @@ public class DomainEntityMapper {
     }
 
     public WishlistResponse toResponse(Wishlist wishlist) {
-        return new WishlistResponse(wishlist.getUserId(),
+        return new WishlistResponse(wishlist.getClientId(),
                 wishlist.getProducts().stream().map((item) -> {
                     return new ProductResponse(
                             item.getId(), item.getName(), item.getImage(), item.getValue(), item.getLink()

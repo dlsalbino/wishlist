@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 
 public class AddProductRequest {
 
-    @NotBlank(message = "'userId' is required")
-    private String userId;
+    @NotBlank(message = "'clientId' is required")
+    private String clientId;
 
     @Valid
     @NotNull(message = "'product' is required")
@@ -16,8 +16,8 @@ public class AddProductRequest {
     public AddProductRequest() {
     }
 
-    public String getUserId() {
-        return userId;
+    public String getClientId() {
+        return clientId;
     }
 
     public ProductRequest getProduct() {

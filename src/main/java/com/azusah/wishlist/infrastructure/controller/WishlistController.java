@@ -40,31 +40,30 @@ public class WishlistController {
 
     @PostMapping
     public ResponseEntity<WishlistResponse> addProduct(@Valid @RequestBody AddProductRequest request) {
-        String userId = request.getUserId();
+        String clientId = request.getClientId();
         String productId = request.getProduct().id();
-        log.info("START: Adding product '{}' to Wishlist of client '{}' process.", productId, userId);
-        var wishlist = addProductUseCase.execute(userId, mapper.toProduct(request));
+        log.info("START: Adding product '{}' to Wishlist of client '{}' process.", productId, clientId);
+        var wishlist = addProductUseCase.execute(clientId, mapper.toProduct(request));
         var addProductResponse = mapper.toResponse(wishlist);
-        log.info("END: Adding product '{}' to Wishlist of client '{}' process.", productId, userId);
+        log.info("END: Adding product '{}' to Wishlist of client '{}' process.", productId, clientId);
         return new ResponseEntity<>(addProductResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/products/{userId}")
-    public ResponseEntity<Set<ProductResponse>> listProducts(@PathVariable String userId) {
+    @GetMapping("/products/{clientId}")
+    public ResponseEntity<Set<ProductResponse>> listProducts(@PathVariable String clientId) {
 
-        log.info("START: Searching products list of client '{}' process.", userId);
-        var productsResponse = mapper.toProductResponse(listAllProductsUseCase.execute(userId));
-        log.info("END: Searching products list of client '{}' process.", userId);
+        log.info("START: Searching products list of client '{}' process.", clientId);
+        var productsResponse = mapper.toProductResponse(listAllProductsUseCase.execute(clientId));
+        log.info("END: Searching products list of client '{}' process.", clientId);
         return new ResponseEntity<>(productsResponse, HttpStatus.OK);
     }
 
-    @PutMapping("/products/{userId}")
+    @PutMapping("/products/{clientId}")
     private ResponseEntity<WishlistResponse> removeProduct(@Valid @RequestBody ProductRequest request,
-                                                           @PathVariable String userId) {
-        log.info("START: Removing product '{}' to Wishlist of client '{}' process.", request.id(), userId);
-        Wishlist wishlist = removeProductUseCase.execute(mapper.toProduct(request), userId);
-        log.info("END: Removing product '{}' to Wishlist of client '{}' process.", request.id(), userId);
+                                                           @PathVariable String clientId) {
+        log.info("START: Removing product '{}' to Wishlist of client '{}' process.", request.id(), clientId);
+        Wishlist wishlist = removeProductUseCase.execute(mapper.toProduct(request), clientId);
+        log.info("END: Removing product '{}' to Wishlist of client '{}' process.", request.id(), clientId);
         return new ResponseEntity<>(mapper.toResponse(wishlist), HttpStatus.OK);
     }
-
 }

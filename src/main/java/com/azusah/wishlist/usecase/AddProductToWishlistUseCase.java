@@ -5,6 +5,6 @@ import com.azusah.wishlist.domain.entity.Wishlist;
 
 public interface AddProductToWishlistUseCase {
 
-    Wishlist execute(String userId, Product product);
+    Wishlist execute(String clientId, Product product);
 
 }
