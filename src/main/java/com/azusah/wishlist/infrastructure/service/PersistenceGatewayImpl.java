@@ -86,7 +86,7 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
                         .map(mapper::toProduct)
                         .collect(Collectors.toSet())
                 )
-                .orElseGet(Set::of); //TODO: change return
+                .orElseGet(Set::of);
     }
 
     @Override
