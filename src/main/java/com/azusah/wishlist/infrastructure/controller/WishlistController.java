@@ -1,10 +1,9 @@
 package com.azusah.wishlist.infrastructure.controller;
 
 import com.azusah.wishlist.domain.entity.Wishlist;
-import com.azusah.wishlist.infrastructure.controller.resources.request.AddProductRequest;
 import com.azusah.wishlist.infrastructure.controller.resources.request.ProductRequest;
-import com.azusah.wishlist.infrastructure.controller.resources.response.WishlistResponse;
 import com.azusah.wishlist.infrastructure.controller.resources.response.ProductResponse;
+import com.azusah.wishlist.infrastructure.controller.resources.response.WishlistResponse;
 import com.azusah.wishlist.infrastructure.mapper.DomainEntityMapper;
 import com.azusah.wishlist.usecase.AddProductToWishlistUseCase;
 import com.azusah.wishlist.usecase.ListAllProductsUseCase;
@@ -38,18 +37,18 @@ public class WishlistController {
         this.removeProductUseCase = removeProductUseCase;
     }
 
-    @PostMapping
-    public ResponseEntity<WishlistResponse> addProduct(@Valid @RequestBody AddProductRequest request) {
-        String clientId = request.getClientId();
-        String productId = request.getProduct().id();
+    @PostMapping("/{clientId}/products")
+    public ResponseEntity<WishlistResponse> addProduct(@PathVariable String clientId,
+                                                       @Valid @RequestBody ProductRequest request) {
+        String productId = request.id();
         log.info("START: Adding product '{}' to Wishlist of client '{}' process.", productId, clientId);
         var wishlist = addProductUseCase.execute(clientId, mapper.toProduct(request));
         var addProductResponse = mapper.toResponse(wishlist);
         log.info("END: Adding product '{}' to Wishlist of client '{}' process.", productId, clientId);
-        return new ResponseEntity<>(addProductResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(addProductResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/products/{clientId}")
+    @GetMapping("/{clientId}/products")
     public ResponseEntity<Set<ProductResponse>> listProducts(@PathVariable String clientId) {
 
         log.info("START: Searching products list of client '{}' process.", clientId);
@@ -58,9 +57,9 @@ public class WishlistController {
         return new ResponseEntity<>(productsResponse, HttpStatus.OK);
     }
 
-    @PutMapping("/products/{clientId}")
-    private ResponseEntity<WishlistResponse> removeProduct(@Valid @RequestBody ProductRequest request,
-                                                           @PathVariable String clientId) {
+    @PutMapping("/{clientId}/products")
+    private ResponseEntity<WishlistResponse> removeProduct(@PathVariable String clientId,
+                                                           @Valid @RequestBody ProductRequest request) {
         log.info("START: Removing product '{}' to Wishlist of client '{}' process.", request.id(), clientId);
         Wishlist wishlist = removeProductUseCase.execute(mapper.toProduct(request), clientId);
         log.info("END: Removing product '{}' to Wishlist of client '{}' process.", request.id(), clientId);

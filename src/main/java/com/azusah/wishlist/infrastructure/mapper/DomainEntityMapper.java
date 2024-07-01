@@ -2,7 +2,6 @@ package com.azusah.wishlist.infrastructure.mapper;
 
 import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.entity.Wishlist;
-import com.azusah.wishlist.infrastructure.controller.resources.request.AddProductRequest;
 import com.azusah.wishlist.infrastructure.controller.resources.request.ProductRequest;
 import com.azusah.wishlist.infrastructure.controller.resources.response.ProductResponse;
 import com.azusah.wishlist.infrastructure.controller.resources.response.WishlistResponse;
@@ -13,16 +12,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class DomainEntityMapper {
-
-    public Product toProduct(AddProductRequest request) {
-        return Product.builder()
-                .id(request.getProduct().id())
-                .name(request.getProduct().name())
-                .value(request.getProduct().value())
-                .image(request.getProduct().image())
-                .link(request.getProduct().link())
-                .build();
-    }
 
     public Product toProduct(ProductRequest request) {
         return Product.builder()

@@ -4,16 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class WishlistResponse {
-    private String userId;
+    private String clientId;
     private Set<ProductResponse> products = new HashSet<>();
 
-    public WishlistResponse(String userId, Set<ProductResponse> products) {
-        this.userId = userId;
+    public WishlistResponse(String clientId, Set<ProductResponse> products) {
+        this.clientId = clientId;
         this.products = products;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getClientId() {
+        return clientId;
     }
 
     public Set<ProductResponse> getProducts() {
