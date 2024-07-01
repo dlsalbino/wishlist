@@ -57,7 +57,7 @@ public class WishlistController {
         return new ResponseEntity<>(productsResponse, HttpStatus.OK);
     }
 
-    @PutMapping("/{clientId}/products")
+    @DeleteMapping("/{clientId}/products")
     private ResponseEntity<WishlistResponse> removeProduct(@PathVariable String clientId,
                                                            @Valid @RequestBody ProductRequest request) {
         log.info("START: Removing product '{}' to Wishlist of client '{}' process.", request.id(), clientId);
