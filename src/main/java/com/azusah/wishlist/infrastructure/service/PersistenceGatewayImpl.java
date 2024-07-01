@@ -2,6 +2,7 @@ package com.azusah.wishlist.infrastructure.service;
 
 import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.entity.Wishlist;
+import com.azusah.wishlist.domain.exception.WishlistNotFoundException;
 import com.azusah.wishlist.domain.exception.WishlistUpdateException;
 import com.azusah.wishlist.gateway.PersistenceGateway;
 import com.azusah.wishlist.infrastructure.mapper.PersistenceEntityMapper;
@@ -30,34 +31,47 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
     }
 
     @Override
-    public Wishlist save(String userId, Product product) {
-        WishlistEntity savedWishlist = repository.save(mapper.toWishlistEntity(userId, product));
-        log.info("Wishlist '{}' created to client '{}'", savedWishlist.getId(), savedWishlist.getUserId());
+    public Wishlist save(String clientId, Product product) {
+        WishlistEntity savedWishlist = repository.save(mapper.toWishlistEntity(clientId, product));
+        log.info("Wishlist '{}' created to client '{}'", savedWishlist.getId(), savedWishlist.getClientId());
         return mapper.toWishlist(savedWishlist);
     }
 
     @Override
-    public Wishlist addProduct(String userId, Product product) {
+    public Wishlist removeProduct(String clientId, Product product) {
+        Optional<WishlistEntity> optionalWishlistEntity = repository.findByClientId(clientId);
+        if (optionalWishlistEntity.isPresent()) {
+            WishlistEntity wishlistEntity = optionalWishlistEntity.get();
+            wishlistEntity.getProducts().remove(mapper.toProductEntity(product));
+            return mapper.toWishlist(repository.save(wishlistEntity));
+        } else {
+            var message = "Not found wishlist for client '" + clientId + "'.";
+            throw new WishlistNotFoundException(message);
+        }
+    }
+
+    @Override
+    public Wishlist addProduct(String clientId, Product product) {
         try {
-            Optional<WishlistEntity> optionalWishlistEntity = repository.findByUserId(userId);
+            Optional<WishlistEntity> optionalWishlistEntity = repository.findByClientId(clientId);
             if (optionalWishlistEntity.isPresent()) {
                 WishlistEntity wishlistEntity = optionalWishlistEntity.get();
                 boolean alreadyAdded = wishlistEntity.getProducts()
                         .stream()
                         .anyMatch(existentProduct -> existentProduct.getId().equals(product.getId()));
                 if (alreadyAdded) {
-                    log.warn("Product '{}' already added in wishlist from client '{}'", product.getId(), userId);
+                    log.warn("Product '{}' already added in wishlist from client '{}'", product.getId(), clientId);
                     return mapper.toWishlist(optionalWishlistEntity.get());
                 } else {
                     wishlistEntity.getProducts().add(mapper.toProductEntity(product));
                     WishlistEntity saved = repository.save(wishlistEntity);
-                    log.info("Wishlist '{}' from client '{}' was updated", saved.getId(), saved.getUserId());
+                    log.info("Wishlist '{}' from client '{}' was updated", saved.getId(), saved.getClientId());
                     return mapper.toWishlist(saved);
                 }
             }
         } catch (Exception e) {
             String message = "Something was wrong while adding product "
-                    + product.getId() + " for client '" + userId + "'.";
+                    + product.getId() + " for client '" + clientId + "'.";
             log.error("ERROR: {}", message);
             throw new WishlistUpdateException(message, e);
         }
@@ -65,18 +79,18 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
     }
 
     @Override
-    public Set<Product> findAllProductsByUser(String userId) {
-        return repository.findByUserId(userId)
+    public Set<Product> findAllProductsByClient(String clientId) {
+        return repository.findByClientId(clientId)
                 .map(entity -> entity.getProducts()
                         .stream()
                         .map(mapper::toProduct)
                         .collect(Collectors.toSet())
                 )
-                .orElseGet(Set::of);
+                .orElseGet(Set::of); //TODO: change return
     }
 
     @Override
-    public Optional<Wishlist> findWishlistByUser(String userId) {
-        return repository.findByUserId(userId).map(mapper::toWishlist);
+    public Optional<Wishlist> findWishlistByClient(String clientId) {
+        return repository.findByClientId(clientId).map(mapper::toWishlist);
     }
 }

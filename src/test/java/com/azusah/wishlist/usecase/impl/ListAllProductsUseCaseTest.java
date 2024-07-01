@@ -28,15 +28,15 @@ public class ListAllProductsUseCaseTest {
     private PersistenceGatewayImpl persistenceGateway;
 
     @Test
-    @DisplayName("Given an userId should return product list when userId was found.")
+    @DisplayName("Given an clientId should return product list when clientId was found.")
     public void testListAllProducts() {
         //given
-        var userId = "123456";
+        var clientId = "123456";
         var products = ProductMock.getProductListWith(5);
-        when(persistenceGateway.findAllProductsByUser(anyString())).thenReturn(products);
+        when(persistenceGateway.findAllProductsByClient(anyString())).thenReturn(products);
 
         //when
-        Set<Product> retrievedProducts = listAllProductsUseCase.execute(userId);
+        Set<Product> retrievedProducts = listAllProductsUseCase.execute(clientId);
 
         //then
         assertThat(retrievedProducts)
@@ -45,16 +45,16 @@ public class ListAllProductsUseCaseTest {
     }
 
     @Test
-    @DisplayName("Given an userId should throw an exception when userId was not found.")
-    public void testUserIdWithoutProductsToList() {
+    @DisplayName("Given an clientId should throw an exception when clientId was not found.")
+    public void testClientIdWithoutProductsToList() {
         //given
-        var userId = "123456";
+        var clientId = "123456";
         var products = ProductMock.getProductListWith(0);
-        when(persistenceGateway.findAllProductsByUser(anyString())).thenReturn(products);
+        when(persistenceGateway.findAllProductsByClient(anyString())).thenReturn(products);
 
         //when | then
         assertThrows(EmptyProductListException.class,
-                () -> listAllProductsUseCase.execute(userId),
+                () -> listAllProductsUseCase.execute(clientId),
                 "There is no products for client '123456'.");
     }
 }

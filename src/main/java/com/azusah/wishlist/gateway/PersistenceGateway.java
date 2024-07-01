@@ -8,12 +8,13 @@ import java.util.Set;
 
 public interface PersistenceGateway {
 
-    Wishlist save(String userId, Product product);
+    Wishlist save(String clientId, Product product);
 
-    Wishlist addProduct(String userId, Product product);
+    Wishlist addProduct(String clientId, Product product);
 
-    Set<Product> findAllProductsByUser(String userId);
+    Wishlist removeProduct(String clientId, Product product);
 
-    Optional<Wishlist> findWishlistByUser(String id);
+    Set<Product> findAllProductsByClient(String clientId);
 
+    Optional<Wishlist> findWishlistByClient(String clientId);
 }

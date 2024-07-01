@@ -38,4 +38,27 @@ public class ProductEntity {
     public String getLink() {
         return link;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductEntity product)) return false;
+
+        if (!getId().equals(product.getId())) return false;
+        if (!getName().equals(product.getName())) return false;
+        if (!getImage().equals(product.getImage())) return false;
+        if (!getValue().equals(product.getValue())) return false;
+        if (!getLink().equals(product.getLink())) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 31 * getId().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getImage().hashCode();
+        result = 31 * result + getValue().hashCode();
+        result = 31 * result + getLink().hashCode();
+        return result;
+    }
 }

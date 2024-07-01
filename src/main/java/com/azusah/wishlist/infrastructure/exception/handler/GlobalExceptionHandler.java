@@ -2,6 +2,7 @@ package com.azusah.wishlist.infrastructure.exception.handler;
 
 import com.azusah.wishlist.domain.exception.EmptyProductListException;
 import com.azusah.wishlist.domain.exception.WishlistLimitAchievedException;
+import com.azusah.wishlist.domain.exception.WishlistNotFoundException;
 import com.azusah.wishlist.domain.exception.WishlistUpdateException;
 import com.azusah.wishlist.infrastructure.exception.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -47,5 +48,12 @@ public class GlobalExceptionHandler {
         List<String> details = Collections.singletonList(ex.getMessage());
         ErrorResponse error = new ErrorResponse("Retrieve products failed", details);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(WishlistNotFoundException.class)
+    public ResponseEntity<Object> handleWishlistNotFoundExceptions(WishlistNotFoundException ex) {
+        List<String> details = Collections.singletonList(ex.getMessage());
+        ErrorResponse error = new ErrorResponse("Wishlist not found", details);
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 }

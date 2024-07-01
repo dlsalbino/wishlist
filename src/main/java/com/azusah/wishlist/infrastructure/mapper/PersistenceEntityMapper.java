@@ -25,7 +25,7 @@ public class PersistenceEntityMapper {
 
     public Wishlist toWishlist(WishlistEntity entity) {
         return Wishlist.builder()
-                .userId(entity.getUserId())
+                .clientId(entity.getClientId())
                 .products(entity.getProducts().stream()
                         .map(productEntity -> Product.builder()
                                 .id(productEntity.getId())
@@ -55,5 +55,14 @@ public class PersistenceEntityMapper {
                 .value(entity.getValue())
                 .link(entity.getLink())
                 .build();
+    }
+
+    public WishlistEntity toWishlistEntity(Wishlist wishlist) {
+        return new WishlistEntity(wishlist.getClientId(),
+                wishlist.getProducts()
+                        .stream()
+                        .map(this::toProductEntity)
+                        .collect(Collectors.toSet())
+        );
     }
 }

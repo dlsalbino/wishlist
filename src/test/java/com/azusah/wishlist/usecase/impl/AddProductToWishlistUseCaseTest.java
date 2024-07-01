@@ -31,11 +31,11 @@ public class AddProductToWishlistUseCaseTest {
     private PersistenceGatewayImpl persistenceGateway;
 
     @Test
-    @DisplayName("Given an userId and product should return a new Wishlist with one product.")
+    @DisplayName("Given an clientId and product should return a new Wishlist with one product.")
     public void testAddingProductToANewWishlist() {
 
         //given
-        var userId = "xyz";
+        var clientId = "xyz";
 
         var product = Product.builder()
                 .id("xyz")
@@ -45,15 +45,15 @@ public class AddProductToWishlistUseCaseTest {
                 .link("http://e-commerce/products/12345")
                 .build();
 
-        when(persistenceGateway.findWishlistByUser(anyString())).thenReturn(Optional.empty());
+        when(persistenceGateway.findWishlistByClient(anyString())).thenReturn(Optional.empty());
 
         var products = new HashSet<Product>();
         products.add(product);
         when(persistenceGateway.save(anyString(), any(Product.class)))
-                .thenReturn(Wishlist.builder().userId(userId).products(products).build());
+                .thenReturn(Wishlist.builder().clientId(clientId).products(products).build());
 
         //when
-        Wishlist wishlist = addProductToWishlistUseCase.execute(userId, product);
+        Wishlist wishlist = addProductToWishlistUseCase.execute(clientId, product);
 
         //then
         assertThat(wishlist).isNotNull();
@@ -63,11 +63,11 @@ public class AddProductToWishlistUseCaseTest {
     }
 
     @Test
-    @DisplayName("Given an userId and product should return an existent wishlist containing the new product")
+    @DisplayName("Given an clientId and product should return an existent wishlist containing the new product")
     public void testAddingProductToAExistingWishlist() {
 
         //given
-        var userId = "xyz";
+        var clientId = "xyz";
 
         var product = Product.builder()
                 .id("xyz")
@@ -76,13 +76,13 @@ public class AddProductToWishlistUseCaseTest {
                 .value("12345.00")
                 .link("http://e-commerce/products/12345")
                 .build();
-        when(persistenceGateway.findWishlistByUser(anyString()))
-                .thenReturn(Optional.of(new Wishlist(userId, ProductMock.getProductListWith(4))));
+        when(persistenceGateway.findWishlistByClient(anyString()))
+                .thenReturn(Optional.of(new Wishlist(clientId, ProductMock.getProductListWith(4))));
         when(persistenceGateway.addProduct(anyString(), any(Product.class)))
-                .thenReturn(new Wishlist(userId, ProductMock.getProductListWith(5)));
+                .thenReturn(new Wishlist(clientId, ProductMock.getProductListWith(5)));
 
         //when
-        Wishlist wishlist = addProductToWishlistUseCase.execute(userId, product);
+        Wishlist wishlist = addProductToWishlistUseCase.execute(clientId, product);
 
         //then
         assertThat(wishlist).isNotNull();
@@ -92,12 +92,12 @@ public class AddProductToWishlistUseCaseTest {
     }
 
     @Test
-    @DisplayName("Given an userId and product should throw an exception" +
+    @DisplayName("Given an clientId and product should throw an exception" +
             "when the list size was greater than or equal to 20")
     public void testNoAddingProductToWishlistWhenWishListIsFull() {
 
         //given
-        var userId = "xyz";
+        var clientId = "xyz";
 
         var product = Product.builder()
                 .id("xyz")
@@ -107,12 +107,12 @@ public class AddProductToWishlistUseCaseTest {
                 .link("http://e-commerce/products/12345")
                 .build();
 
-        when(persistenceGateway.findWishlistByUser(anyString()))
-                .thenReturn(Optional.of(new Wishlist(userId, ProductMock.getProductListWith(20))));
+        when(persistenceGateway.findWishlistByClient(anyString()))
+                .thenReturn(Optional.of(new Wishlist(clientId, ProductMock.getProductListWith(20))));
 
         //when | then
         assertThrows(WishlistLimitAchievedException.class,
-                () -> addProductToWishlistUseCase.execute(userId, product),
+                () -> addProductToWishlistUseCase.execute(clientId, product),
                 "The Wishlist has achieved the limit of 20 products.");
     }
 }

@@ -25,20 +25,20 @@ public class AddProductToWishlistUseCaseImpl implements AddProductToWishlistUseC
     }
 
     @Override
-    public Wishlist execute(String userId, Product product) {
-        if (nonNull(userId) && nonNull(product)) {
-            Optional<Wishlist> retrievedWishlist = persistenceGateway.findWishlistByUser(userId);
+    public Wishlist execute(String clientId, Product product) {
+        if (nonNull(clientId) && nonNull(product)) {
+            Optional<Wishlist> retrievedWishlist = persistenceGateway.findWishlistByClient(clientId);
             if (retrievedWishlist.isPresent()) {
                 var wishlist = retrievedWishlist.get();
                 if (wishlist.getProducts().size() < WISHLIST_MAX_LIMIT) {
-                    return persistenceGateway.addProduct(userId, product);
+                    return persistenceGateway.addProduct(clientId, product);
                 } else {
                     var message = "The Wishlist has achieved the limit of " + WISHLIST_MAX_LIMIT + " products.";
                     log.warn("END: {}", message);
                     throw new WishlistLimitAchievedException(message);
                 }
             } else {
-                return persistenceGateway.save(userId, product);
+                return persistenceGateway.save(clientId, product);
             }
         }
         return null;

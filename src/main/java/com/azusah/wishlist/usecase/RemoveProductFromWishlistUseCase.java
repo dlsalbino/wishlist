@@ -3,8 +3,7 @@ package com.azusah.wishlist.usecase;
 import com.azusah.wishlist.domain.entity.Product;
 import com.azusah.wishlist.domain.entity.Wishlist;
 
-public interface AddProductToWishlistUseCase {
+public interface RemoveProductFromWishlistUseCase {
 
-    Wishlist execute(String clientId, Product product);
-
+    Wishlist execute(Product product, String userId);
 }

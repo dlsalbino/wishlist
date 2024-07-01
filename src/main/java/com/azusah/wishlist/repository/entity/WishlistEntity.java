@@ -11,12 +11,12 @@ public class WishlistEntity {
     @Id
     private String id;
 
-    private String userId;
+    private String clientId;
 
     private Set<ProductEntity> products;
 
-    public WishlistEntity(String userId, Set<ProductEntity> products) {
-        this.userId = userId;
+    public WishlistEntity(String clientId, Set<ProductEntity> products) {
+        this.clientId = clientId;
         this.products = products;
     }
 
@@ -24,8 +24,8 @@ public class WishlistEntity {
         return id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getClientId() {
+        return clientId;
     }
 
     public Set<ProductEntity> getProducts() {

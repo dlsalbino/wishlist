@@ -4,21 +4,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Wishlist {
-    private String userId;
+    private String clientId;
     private Set<Product> products = new HashSet<>();
 
-    public Wishlist(String userId, Product product) {
-        this.userId = userId;
+    public Wishlist(String clientId, Product product) {
+        this.clientId = clientId;
         this.products.add(product);
     }
 
-    public Wishlist(String userId, Set<Product> products) {
-        this.userId = userId;
+    public Wishlist(String clientId, Set<Product> products) {
+        this.clientId = clientId;
         this.products.addAll(products);
     }
 
     private Wishlist(Builder builder) {
-        this.userId = builder.userId;
+        this.clientId = builder.clientId;
         this.products = builder.products;
     }
 
@@ -26,12 +26,12 @@ public class Wishlist {
         return new Builder();
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getClientId() {
+        return clientId;
     }
 
     public Set<Product> getProducts() {
@@ -47,14 +47,14 @@ public class Wishlist {
     }
 
     public static class Builder {
-        private String userId;
+        private String clientId;
         private Set<Product> products = new HashSet<>();
 
         private Builder() {
         }
 
-        public Builder userId(String userId) {
-            this.userId = userId;
+        public Builder clientId(String clientId) {
+            this.clientId = clientId;
             return this;
         }
 
