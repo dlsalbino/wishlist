@@ -28,10 +28,17 @@ The app will start running at <http://localhost:8080>.
 ## Explore Rest APIs
 The app defines following these API's endpoints:
 
+POST //api/wishlist/v1/auth
+```bash 
+curl --location --request POST 'http://localhost:8080/api/wishlist/v1/auth' \
+--header 'Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=' \
+--header 'Cookie: JSESSIONID=50BAD1789903E68F6A0E92B2847897F2' \
+--data ''
+```
 
-POST /api/v1/wishlist/{clientId}/products
+POST /api/wishlist/v1/:clientId/products
 ```bash
-curl --location 'http://localhost:8080/api/v1/wishlist/clientId/products' \
+curl --location 'http://localhost:8080/api/wishlist/v1/:clientId/products' \
 --header 'Content-Type: application/json' \
 --data '{
     "id": "d3b8373b-accd-443d-ad8a-dad326e494c9",
@@ -42,14 +49,14 @@ curl --location 'http://localhost:8080/api/v1/wishlist/clientId/products' \
 }'
 ```
     
-GET /api/v1/wishlist/{clientId}/products
+GET /api/wishlist/v1/{clientId}/products
 ```bash
-curl --location 'http://localhost:8080/api/v1/wishlist/clientId/products'
+curl --location 'http://localhost:8080/api/wishlist/v1/:clientId/products'
 ```
     
-DELETE /api/v1/wishlist/{clientId}/products
+DELETE /api/wishlist/v1/{clientId}/products
 ```bash
-curl --location --request DELETE 'http://localhost:8080/api/v1/wishlist/hdba01/products' \
+curl --location --request DELETE 'http://localhost:8080/api/v1/wishlist/:clientId/products' \
 --header 'Content-Type: application/json' \
 --data '{
         "id": "c271cdfb-f5a1-4205-b462-f73dbf332e82",
@@ -63,7 +70,7 @@ curl --location --request DELETE 'http://localhost:8080/api/v1/wishlist/hdba01/p
 
 ## Technical Debts
 - [ ] Implement endpoint to verify if a product is on wishlist
-- [ ] Secure API
+- [X] Secure API
 - [ ] Other Unit Tests
 - [ ] Integration Tests
 - [ ] OpenAPI/Swagger Documentation
