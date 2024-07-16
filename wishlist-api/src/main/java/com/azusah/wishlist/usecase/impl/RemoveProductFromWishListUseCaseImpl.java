@@ -16,7 +16,7 @@ public class RemoveProductFromWishListUseCaseImpl implements RemoveProductFromWi
     }
 
     @Override
-    public Wishlist execute(Product product, String userId) {
-        return persistenceGateway.removeProduct(userId, product);
+    public Wishlist execute(Product product, String customerId) {
+        return persistenceGateway.removeProduct(customerId, product);
     }
 }

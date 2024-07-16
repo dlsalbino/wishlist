@@ -31,47 +31,47 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
     }
 
     @Override
-    public Wishlist save(String clientId, Product product) {
-        WishlistEntity savedWishlist = repository.save(mapper.toWishlistEntity(clientId, product));
+    public Wishlist save(String customerId, Product product) {
+        WishlistEntity savedWishlist = repository.save(mapper.toWishlistEntity(customerId, product));
         log.info("Wishlist '{}' created to client '{}'", savedWishlist.getId(), savedWishlist.getCustomerId());
         return mapper.toWishlist(savedWishlist);
     }
 
     @Override
-    public Wishlist removeProduct(String clientId, Product product) {
-        Optional<WishlistEntity> optionalWishlistEntity = repository.findByCustomerId(clientId);
+    public Wishlist removeProduct(String customerId, Product product) {
+        Optional<WishlistEntity> optionalWishlistEntity = repository.findByCustomerId(customerId);
         if (optionalWishlistEntity.isPresent()) {
             WishlistEntity wishlistEntity = optionalWishlistEntity.get();
             wishlistEntity.getProducts().remove(mapper.toProductEntity(product));
             return mapper.toWishlist(repository.save(wishlistEntity));
         } else {
-            var message = "Not found wishlist for client '" + clientId + "'.";
+            var message = "Not found wishlist for customer '" + customerId + "'.";
             throw new WishlistNotFoundException(message);
         }
     }
 
     @Override
-    public Wishlist addProduct(String clientId, Product product) {
+    public Wishlist addProduct(String customerId, Product product) {
         try {
-            Optional<WishlistEntity> optionalWishlistEntity = repository.findByCustomerId(clientId);
+            Optional<WishlistEntity> optionalWishlistEntity = repository.findByCustomerId(customerId);
             if (optionalWishlistEntity.isPresent()) {
                 WishlistEntity wishlistEntity = optionalWishlistEntity.get();
                 boolean alreadyAdded = wishlistEntity.getProducts()
                         .stream()
                         .anyMatch(existentProduct -> existentProduct.getId().equals(product.getId()));
                 if (alreadyAdded) {
-                    log.warn("Product '{}' already added in wishlist from client '{}'", product.getId(), clientId);
+                    log.warn("Product '{}' already added in wishlist from customer '{}'", product.getId(), customerId);
                     return mapper.toWishlist(optionalWishlistEntity.get());
                 } else {
                     wishlistEntity.getProducts().add(mapper.toProductEntity(product));
                     WishlistEntity saved = repository.save(wishlistEntity);
-                    log.info("Wishlist '{}' from client '{}' was updated", saved.getId(), saved.getCustomerId());
+                    log.info("Wishlist '{}' from customer '{}' was updated", saved.getId(), saved.getCustomerId());
                     return mapper.toWishlist(saved);
                 }
             }
         } catch (Exception e) {
             String message = "Something was wrong while adding product "
-                    + product.getId() + " for client '" + clientId + "'.";
+                    + product.getId() + " for customer '" + customerId + "'.";
             log.error("ERROR: {}", message);
             throw new WishlistUpdateException(message, e);
         }

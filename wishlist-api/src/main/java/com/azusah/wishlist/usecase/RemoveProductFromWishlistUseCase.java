@@ -5,5 +5,5 @@ import com.azusah.wishlist.core.domain.entity.Wishlist;
 
 public interface RemoveProductFromWishlistUseCase {
 
-    Wishlist execute(Product product, String userId);
+    Wishlist execute(Product product, String customerId);
 }
