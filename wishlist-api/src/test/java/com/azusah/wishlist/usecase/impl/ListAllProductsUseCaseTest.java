@@ -33,7 +33,7 @@ public class ListAllProductsUseCaseTest {
         //given
         var clientId = "123456";
         var products = ProductMock.getProductListWith(5);
-        when(persistenceGateway.findAllProductsByClient(anyString())).thenReturn(products);
+        when(persistenceGateway.findAllProductsByCustomer(anyString())).thenReturn(products);
 
         //when
         Set<Product> retrievedProducts = listAllProductsUseCase.execute(clientId);
@@ -50,7 +50,7 @@ public class ListAllProductsUseCaseTest {
         //given
         var clientId = "123456";
         var products = ProductMock.getProductListWith(0);
-        when(persistenceGateway.findAllProductsByClient(anyString())).thenReturn(products);
+        when(persistenceGateway.findAllProductsByCustomer(anyString())).thenReturn(products);
 
         //when | then
         assertThrows(EmptyProductListException.class,

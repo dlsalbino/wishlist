@@ -23,12 +23,12 @@ public class ListAllProductsUseCaseImpl implements ListAllProductsUseCase {
     }
 
     @Override
-    public Set<Product> execute(String userId) {
-        Set<Product> products = persistenceGateway.findAllProductsByClient(userId);
+    public Set<Product> execute(String customerId) {
+        Set<Product> products = persistenceGateway.findAllProductsByCustomer(customerId);
         if (products.isEmpty())
-            throw new EmptyProductListException("There is no products for client '" + userId + "'.");
+            throw new EmptyProductListException("There is no products for client '" + customerId + "'.");
 
-        log.info("Retrieved {} products from client '{}'", products.size(), userId);
+        log.info("Retrieved {} products from client '{}'", products.size(), customerId);
         return products;
     }
 }

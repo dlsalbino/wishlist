@@ -79,8 +79,8 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
     }
 
     @Override
-    public Set<Product> findAllProductsByClient(String clientId) {
-        return repository.findByCustomerId(clientId)
+    public Set<Product> findAllProductsByCustomer(String customerId) {
+        return repository.findByCustomerId(customerId)
                 .map(entity -> entity.getProducts()
                         .stream()
                         .map(mapper::toProduct)

@@ -48,12 +48,12 @@ public class WishlistController {
         return new ResponseEntity<>(addProductResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{clientId}/products")
-    public ResponseEntity<Set<ProductResponse>> listProducts(@PathVariable String clientId) {
+    @GetMapping("/{customerId}/products")
+    public ResponseEntity<Set<ProductResponse>> listProducts(@PathVariable String customerId) {
 
-        log.info("START: Searching products list of client '{}' process.", clientId);
-        var productsResponse = mapper.toProductResponse(listAllProductsUseCase.execute(clientId));
-        log.info("END: Searching products list of client '{}' process.", clientId);
+        log.info("START: Searching products list of customer '{}' process.", customerId);
+        var productsResponse = mapper.toProductResponse(listAllProductsUseCase.execute(customerId));
+        log.info("END: Searching products list of customer '{}' process.", customerId);
         return new ResponseEntity<>(productsResponse, HttpStatus.OK);
     }
 
