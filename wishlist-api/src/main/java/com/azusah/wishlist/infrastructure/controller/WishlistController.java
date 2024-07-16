@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("api/v1/wishlist")
+@RequestMapping("/v1")
 public class WishlistController {
 
     private static final Logger log = LoggerFactory.getLogger(WishlistController.class);
