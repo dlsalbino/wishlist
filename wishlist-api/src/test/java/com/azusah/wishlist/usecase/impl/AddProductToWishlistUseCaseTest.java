@@ -45,7 +45,7 @@ public class AddProductToWishlistUseCaseTest {
                 .link("http://e-commerce/products/12345")
                 .build();
 
-        when(persistenceGateway.findWishlistByClient(anyString())).thenReturn(Optional.empty());
+        when(persistenceGateway.findWishlistByCustomer(anyString())).thenReturn(Optional.empty());
 
         var products = new HashSet<Product>();
         products.add(product);
@@ -76,7 +76,7 @@ public class AddProductToWishlistUseCaseTest {
                 .value("12345.00")
                 .link("http://e-commerce/products/12345")
                 .build();
-        when(persistenceGateway.findWishlistByClient(anyString()))
+        when(persistenceGateway.findWishlistByCustomer(anyString()))
                 .thenReturn(Optional.of(new Wishlist(clientId, ProductMock.getProductListWith(4))));
         when(persistenceGateway.addProduct(anyString(), any(Product.class)))
                 .thenReturn(new Wishlist(clientId, ProductMock.getProductListWith(5)));
@@ -107,7 +107,7 @@ public class AddProductToWishlistUseCaseTest {
                 .link("http://e-commerce/products/12345")
                 .build();
 
-        when(persistenceGateway.findWishlistByClient(anyString()))
+        when(persistenceGateway.findWishlistByCustomer(anyString()))
                 .thenReturn(Optional.of(new Wishlist(clientId, ProductMock.getProductListWith(20))));
 
         //when | then

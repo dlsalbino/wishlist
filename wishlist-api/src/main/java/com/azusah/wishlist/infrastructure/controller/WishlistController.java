@@ -37,14 +37,14 @@ public class WishlistController {
         this.removeProductUseCase = removeProductUseCase;
     }
 
-    @PostMapping("/{clientId}/products")
-    public ResponseEntity<WishlistResponse> addProduct(@PathVariable String clientId,
+    @PostMapping("/{customerId}/products")
+    public ResponseEntity<WishlistResponse> addProduct(@PathVariable String customerId,
                                                        @Valid @RequestBody ProductRequest request) {
         String productId = request.id();
-        log.info("START: Adding product '{}' to Wishlist of client '{}' process.", productId, clientId);
-        var wishlist = addProductUseCase.execute(clientId, mapper.toProduct(request));
+        log.info("START: Adding product '{}' to Wishlist from customer '{}' process.", productId, customerId);
+        var wishlist = addProductUseCase.execute(customerId, mapper.toProduct(request));
         var addProductResponse = mapper.toResponse(wishlist);
-        log.info("END: Adding product '{}' to Wishlist of client '{}' process.", productId, clientId);
+        log.info("END: Adding product '{}' to Wishlist from customer '{}' process.", productId, customerId);
         return new ResponseEntity<>(addProductResponse, HttpStatus.OK);
     }
 

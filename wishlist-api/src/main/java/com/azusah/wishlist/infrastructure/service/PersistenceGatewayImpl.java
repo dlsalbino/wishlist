@@ -33,13 +33,13 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
     @Override
     public Wishlist save(String clientId, Product product) {
         WishlistEntity savedWishlist = repository.save(mapper.toWishlistEntity(clientId, product));
-        log.info("Wishlist '{}' created to client '{}'", savedWishlist.getId(), savedWishlist.getClientId());
+        log.info("Wishlist '{}' created to client '{}'", savedWishlist.getId(), savedWishlist.getCustomerId());
         return mapper.toWishlist(savedWishlist);
     }
 
     @Override
     public Wishlist removeProduct(String clientId, Product product) {
-        Optional<WishlistEntity> optionalWishlistEntity = repository.findByClientId(clientId);
+        Optional<WishlistEntity> optionalWishlistEntity = repository.findByCustomerId(clientId);
         if (optionalWishlistEntity.isPresent()) {
             WishlistEntity wishlistEntity = optionalWishlistEntity.get();
             wishlistEntity.getProducts().remove(mapper.toProductEntity(product));
@@ -53,7 +53,7 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
     @Override
     public Wishlist addProduct(String clientId, Product product) {
         try {
-            Optional<WishlistEntity> optionalWishlistEntity = repository.findByClientId(clientId);
+            Optional<WishlistEntity> optionalWishlistEntity = repository.findByCustomerId(clientId);
             if (optionalWishlistEntity.isPresent()) {
                 WishlistEntity wishlistEntity = optionalWishlistEntity.get();
                 boolean alreadyAdded = wishlistEntity.getProducts()
@@ -65,7 +65,7 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
                 } else {
                     wishlistEntity.getProducts().add(mapper.toProductEntity(product));
                     WishlistEntity saved = repository.save(wishlistEntity);
-                    log.info("Wishlist '{}' from client '{}' was updated", saved.getId(), saved.getClientId());
+                    log.info("Wishlist '{}' from client '{}' was updated", saved.getId(), saved.getCustomerId());
                     return mapper.toWishlist(saved);
                 }
             }
@@ -80,7 +80,7 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
 
     @Override
     public Set<Product> findAllProductsByClient(String clientId) {
-        return repository.findByClientId(clientId)
+        return repository.findByCustomerId(clientId)
                 .map(entity -> entity.getProducts()
                         .stream()
                         .map(mapper::toProduct)
@@ -90,7 +90,7 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
     }
 
     @Override
-    public Optional<Wishlist> findWishlistByClient(String clientId) {
-        return repository.findByClientId(clientId).map(mapper::toWishlist);
+    public Optional<Wishlist> findWishlistByCustomer(String customerId) {
+        return repository.findByCustomerId(customerId).map(mapper::toWishlist);
     }
 }

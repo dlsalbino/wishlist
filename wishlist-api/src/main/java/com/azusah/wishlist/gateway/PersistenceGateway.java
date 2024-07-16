@@ -16,5 +16,5 @@ public interface PersistenceGateway {
 
     Set<Product> findAllProductsByClient(String clientId);
 
-    Optional<Wishlist> findWishlistByClient(String clientId);
+    Optional<Wishlist> findWishlistByCustomer(String customerId);
 }
