@@ -28,6 +28,13 @@ The app will start running at <http://localhost:8080>.
 ## Explore Rest APIs
 The app defines following these API's endpoints:
 
+POST //api/wishlist/v1/auth
+```bash 
+curl --location --request POST 'http://localhost:8080/api/wishlist/v1/auth' \
+--header 'Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=' \
+--header 'Cookie: JSESSIONID=50BAD1789903E68F6A0E92B2847897F2' \
+--data ''
+```
 
 POST /api/wishlist/v1/:clientId/products
 ```bash
