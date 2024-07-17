@@ -28,47 +28,39 @@ The app will start running at <http://localhost:8080>.
 ## Explore Rest APIs
 The app defines following these API's endpoints:
 
-POST //api/wishlist/v1/auth
+POST /api/wishlist/v1/auth
 ```bash 
 curl --location --request POST 'http://localhost:8080/api/wishlist/v1/auth' \
---header 'Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=' \
---header 'Cookie: JSESSIONID=50BAD1789903E68F6A0E92B2847897F2' \
---data ''
+--header 'Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ='
 ```
 
-POST /api/wishlist/v1/:clientId/products
+POST /api/wishlist/v1/:customerId/products
 ```bash
-curl --location 'http://localhost:8080/api/wishlist/v1/:clientId/products' \
+curl --location 'http://localhost:8080/api/wishlist/v1/:customerId/products' \
+--header 'Authorization: Bearer {token}' \
 --header 'Content-Type: application/json' \
 --data '{
-    "id": "d3b8373b-accd-443d-ad8a-dad326e494c9",
-    "name": "book",
-    "image": "https://ecommerce.com/produts/images/book.png",
-    "value": "100.00",
+    "id": "fe343ffe-528a-4499-925a-bdbe2295a46b",
+    "name": "livro",
+    "image": "https://ecommerce.com/produts/images/livro.png",
+    "value": "10.00",
     "link": "https://ecommerce.com/productId"
 }'
 ```
     
-GET /api/wishlist/v1/{clientId}/products
+GET /api/wishlist/v1/:customerId/products
 ```bash
-curl --location 'http://localhost:8080/api/wishlist/v1/:clientId/products'
+curl --location 'http://localhost:8080/api/wishlist/v1/:customerId/products'
 ```
     
-DELETE /api/wishlist/v1/{clientId}/products
+DELETE /api/wishlist/v1/:customerId/products/:productId
 ```bash
-curl --location --request DELETE 'http://localhost:8080/api/v1/wishlist/:clientId/products' \
+curl --location --request DELETE 'http://localhost:8080/api/wishlist/v1/:customerId/products/:productId' \
 --header 'Content-Type: application/json' \
---data '{
-        "id": "c271cdfb-f5a1-4205-b462-f73dbf332e82",
-        "name": "book",
-        "image": "https://ecommerce.com/produts/images/book.png",
-        "value": "100.00",
-        "link": "https://ecommerce.com/productId"
-    }
-'
+--header 'Authorization: Bearer {token}'
 ```
 
-## Technical Debts
+## Technical Debts and Improvements
 - [ ] Implement endpoint to verify if a product is on wishlist
 - [X] Secure API
 - [ ] Other Unit Tests

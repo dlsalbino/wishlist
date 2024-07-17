@@ -38,11 +38,11 @@ public class PersistenceGatewayImpl implements PersistenceGateway {
     }
 
     @Override
-    public Wishlist removeProduct(String customerId, Product product) {
+    public Wishlist removeProduct(String customerId, String productId) {
         Optional<WishlistEntity> optionalWishlistEntity = repository.findByCustomerId(customerId);
         if (optionalWishlistEntity.isPresent()) {
             WishlistEntity wishlistEntity = optionalWishlistEntity.get();
-            wishlistEntity.getProducts().remove(mapper.toProductEntity(product));
+            wishlistEntity.getProducts().removeIf(item -> item.getId().equals(productId));
             return mapper.toWishlist(repository.save(wishlistEntity));
         } else {
             var message = "Not found wishlist for customer '" + customerId + "'.";

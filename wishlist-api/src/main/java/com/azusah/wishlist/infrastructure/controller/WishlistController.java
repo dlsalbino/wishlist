@@ -57,12 +57,12 @@ public class WishlistController {
         return new ResponseEntity<>(productsResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{customerId}/products")
+    @DeleteMapping("/{customerId}/products/{productId}")
     private ResponseEntity<WishlistResponse> removeProduct(@PathVariable String customerId,
-                                                           @Valid @RequestBody ProductRequest request) {
-        log.info("START: Removing product '{}' to Wishlist of customer '{}' process.", request.id(), customerId);
-        Wishlist wishlist = removeProductUseCase.execute(mapper.toProduct(request), customerId);
-        log.info("END: Removing product '{}' to Wishlist of customer '{}' process.", request.id(), customerId);
+                                                           @PathVariable String productId) {
+        log.info("START: Removing product '{}' to Wishlist of customer '{}' process.", productId, customerId);
+        Wishlist wishlist = removeProductUseCase.execute(customerId, productId);
+        log.info("END: Removing product '{}' to Wishlist of customer '{}' process.", productId, customerId);
         return new ResponseEntity<>(mapper.toResponse(wishlist), HttpStatus.NO_CONTENT);
     }
 }

@@ -26,9 +26,9 @@ public class ListAllProductsUseCaseImpl implements ListAllProductsUseCase {
     public Set<Product> execute(String customerId) {
         Set<Product> products = persistenceGateway.findAllProductsByCustomer(customerId);
         if (products.isEmpty())
-            throw new EmptyProductListException("There is no products for client '" + customerId + "'.");
+            throw new EmptyProductListException("There is no products for customer '" + customerId + "'.");
 
-        log.info("Retrieved {} products from client '{}'", products.size(), customerId);
+        log.info("Retrieved {} products from customer '{}'", products.size(), customerId);
         return products;
     }
 }
