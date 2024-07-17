@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -41,7 +42,7 @@ public class AddProductToWishlistUseCaseTest {
                 .id("xyz")
                 .name("xyz")
                 .image("http://image.address.com/12345")
-                .value("12345.00")
+                .value(new BigDecimal("12345.00"))
                 .link("http://e-commerce/products/12345")
                 .build();
 
@@ -73,7 +74,7 @@ public class AddProductToWishlistUseCaseTest {
                 .id("xyz")
                 .name("xyz")
                 .image("http://image.address.com/12345")
-                .value("12345.00")
+                .value(new BigDecimal("12345.00"))
                 .link("http://e-commerce/products/12345")
                 .build();
         when(persistenceGateway.findWishlistByCustomer(anyString()))
@@ -103,7 +104,7 @@ public class AddProductToWishlistUseCaseTest {
                 .id("xyz")
                 .name("xyz")
                 .image("http://image.address.com/12345")
-                .value("12345.00")
+                .value(new BigDecimal("12345.00"))
                 .link("http://e-commerce/products/12345")
                 .build();
 

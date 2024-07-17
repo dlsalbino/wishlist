@@ -39,10 +39,10 @@ public class WishlistController {
 
     @PostMapping("/{customerId}/products")
     public ResponseEntity<WishlistResponse> addProduct(@PathVariable String customerId,
-                                                       @Valid @RequestBody ProductRequest request) {
-        String productId = request.id();
+                                                       @Valid @RequestBody ProductRequest productRequest) {
+        String productId = productRequest.id();
         log.info("START: Adding product '{}' to Wishlist from customer '{}' process.", productId, customerId);
-        var wishlist = addProductUseCase.execute(customerId, mapper.toProduct(request));
+        var wishlist = addProductUseCase.execute(customerId, mapper.toProduct(productRequest));
         var addProductResponse = mapper.toResponse(wishlist);
         log.info("END: Adding product '{}' to Wishlist from customer '{}' process.", productId, customerId);
         return new ResponseEntity<>(addProductResponse, HttpStatus.OK);
