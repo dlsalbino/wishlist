@@ -1,10 +1,14 @@
 package com.azusah.wishlist.infrastructure.exception.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
 public class ErrorResponse {
 
+    @Schema(example = "Full Wishlist", description = "The error's title.")
     private String message;
+    @Schema(example = "The Wishlist has achieved the limit of 20 products.", description = "The reason of the error.")
     private List<String> details;
 
     public ErrorResponse() {

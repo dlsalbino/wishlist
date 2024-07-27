@@ -4,6 +4,7 @@ import com.azusah.wishlist.core.domain.entity.Wishlist;
 import com.azusah.wishlist.infrastructure.controller.resources.request.ProductRequest;
 import com.azusah.wishlist.infrastructure.controller.resources.response.ProductResponse;
 import com.azusah.wishlist.infrastructure.controller.resources.response.WishlistResponse;
+import com.azusah.wishlist.infrastructure.documentation.SwaggerDocumentation;
 import com.azusah.wishlist.infrastructure.mapper.DomainEntityMapper;
 import com.azusah.wishlist.usecase.AddProductToWishlistUseCase;
 import com.azusah.wishlist.usecase.ListAllProductsUseCase;
@@ -20,7 +21,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/v1")
-public class WishlistController {
+public class WishlistController implements SwaggerDocumentation {
 
     private static final Logger log = LoggerFactory.getLogger(WishlistController.class);
     private final DomainEntityMapper mapper;
@@ -45,7 +46,7 @@ public class WishlistController {
         var wishlist = addProductUseCase.execute(customerId, mapper.toProduct(productRequest));
         var addProductResponse = mapper.toResponse(wishlist);
         log.info("END: Adding product '{}' to Wishlist from customer '{}' process.", productId, customerId);
-        return new ResponseEntity<>(addProductResponse, HttpStatus.OK);
+        return new ResponseEntity<>(addProductResponse, HttpStatus.CREATED);
     }
 
     @GetMapping("/{customerId}/products")
@@ -58,7 +59,7 @@ public class WishlistController {
     }
 
     @DeleteMapping("/{customerId}/products/{productId}")
-    private ResponseEntity<WishlistResponse> removeProduct(@PathVariable String customerId,
+    public ResponseEntity<WishlistResponse> removeProduct(@PathVariable String customerId,
                                                            @PathVariable String productId) {
         log.info("START: Removing product '{}' to Wishlist of customer '{}' process.", productId, customerId);
         Wishlist wishlist = removeProductUseCase.execute(customerId, productId);

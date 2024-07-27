@@ -60,12 +60,16 @@ curl --location --request DELETE 'http://localhost:8080/api/wishlist/v1/:custome
 --header 'Authorization: Bearer {token}'
 ```
 
+## Swagger Documentation
+When the application is running you'll can find the Swagger Documentation [here](http://localhost:8080/api/wishlist/swagger-ui/index.html).
+
+
 ## Technical Debts and Improvements
 - [ ] Implement endpoint to verify if a product is on wishlist
 - [X] Secure API
 - [ ] Other Unit Tests
 - [ ] Integration Tests
-- [ ] OpenAPI/Swagger Documentation
+- [X] OpenAPI/Swagger Documentation
 - [ ] GitHub Actions Integrations
 - [ ] Observability issues
 - [ ] ...
