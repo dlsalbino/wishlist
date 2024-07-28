@@ -31,11 +31,12 @@ public interface SwaggerDocumentation {
     ResponseEntity<WishlistResponse> addProduct(String customerId, ProductRequest productRequest);
 
     @Operation(summary = "List products", description = "Lists all products (maximum of 20) existent into a wishlist.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProductResponse.class)))})
-    })
     @Parameters({
             @Parameter(name = "customerId", description = "The id of an existent customer.", required = true, example = "becfef1f-296c-4e6a-8609-200c9aa7f5cd")
+    })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProductResponse.class)))}),
+            @ApiResponse(responseCode = "404", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))})
     })
     ResponseEntity<Set<ProductResponse>> listProducts(String customerId);
 
@@ -43,6 +44,10 @@ public interface SwaggerDocumentation {
     @Parameters({
             @Parameter(name = "customerId", description = "The id of an existent customer.", required = true, example = "becfef1f-296c-4e6a-8609-200c9aa7f5cd"),
             @Parameter(name = "productId", description = "The id of an existent product.", required = true, example = "6c3af85d-53ca-4cfe-8f91-ab6e1e727450")
+    })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = WishlistResponse.class))}),
+            @ApiResponse(responseCode = "404", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))})
     })
     ResponseEntity<WishlistResponse> removeProduct(String customerId, String productId);
 }

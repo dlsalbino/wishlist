@@ -38,6 +38,7 @@ public class WishlistController implements SwaggerDocumentation {
         this.removeProductUseCase = removeProductUseCase;
     }
 
+    @Override
     @PostMapping("/{customerId}/products")
     public ResponseEntity<WishlistResponse> addProduct(@PathVariable String customerId,
                                                        @Valid @RequestBody ProductRequest productRequest) {
@@ -49,6 +50,7 @@ public class WishlistController implements SwaggerDocumentation {
         return new ResponseEntity<>(addProductResponse, HttpStatus.CREATED);
     }
 
+    @Override
     @GetMapping("/{customerId}/products")
     public ResponseEntity<Set<ProductResponse>> listProducts(@PathVariable String customerId) {
 
@@ -58,12 +60,13 @@ public class WishlistController implements SwaggerDocumentation {
         return new ResponseEntity<>(productsResponse, HttpStatus.OK);
     }
 
+    @Override
     @DeleteMapping("/{customerId}/products/{productId}")
     public ResponseEntity<WishlistResponse> removeProduct(@PathVariable String customerId,
                                                            @PathVariable String productId) {
         log.info("START: Removing product '{}' to Wishlist of customer '{}' process.", productId, customerId);
         Wishlist wishlist = removeProductUseCase.execute(customerId, productId);
         log.info("END: Removing product '{}' to Wishlist of customer '{}' process.", productId, customerId);
-        return new ResponseEntity<>(mapper.toResponse(wishlist), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(mapper.toResponse(wishlist), HttpStatus.OK);
     }
 }

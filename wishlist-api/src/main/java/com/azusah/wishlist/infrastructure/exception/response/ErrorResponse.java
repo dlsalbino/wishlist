@@ -6,9 +6,9 @@ import java.util.List;
 
 public class ErrorResponse {
 
-    @Schema(example = "Full Wishlist", description = "The error's title.")
+    @Schema(example = "Error Title", description = "The error's title.")
     private String message;
-    @Schema(example = "The Wishlist has achieved the limit of 20 products.", description = "The reason of the error.")
+    @Schema(example = "Error description.", description = "The reason of the error.")
     private List<String> details;
 
     public ErrorResponse() {
