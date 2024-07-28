@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.Set;
 
 @Tag(name = "Wishlist Operations", description = "Performs operations to a wishlist.")
-public interface SwaggerDocumentation {
+public interface WishlistControllerSwaggerDoc {
 
     @Operation(summary = "Add product", description = "Creates an wishlist if not exists, and add a product.")
     @Parameters({

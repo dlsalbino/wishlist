@@ -4,7 +4,7 @@ import com.azusah.wishlist.core.domain.entity.Wishlist;
 import com.azusah.wishlist.infrastructure.controller.resources.request.ProductRequest;
 import com.azusah.wishlist.infrastructure.controller.resources.response.ProductResponse;
 import com.azusah.wishlist.infrastructure.controller.resources.response.WishlistResponse;
-import com.azusah.wishlist.infrastructure.documentation.SwaggerDocumentation;
+import com.azusah.wishlist.infrastructure.documentation.WishlistControllerSwaggerDoc;
 import com.azusah.wishlist.infrastructure.mapper.DomainEntityMapper;
 import com.azusah.wishlist.usecase.AddProductToWishlistUseCase;
 import com.azusah.wishlist.usecase.ListAllProductsUseCase;
@@ -21,7 +21,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/v1")
-public class WishlistController implements SwaggerDocumentation {
+public class WishlistController implements WishlistControllerSwaggerDoc {
 
     private static final Logger log = LoggerFactory.getLogger(WishlistController.class);
     private final DomainEntityMapper mapper;
