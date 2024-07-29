@@ -25,7 +25,7 @@ public class PersistenceEntityMapper {
 
     public Wishlist toWishlist(WishlistEntity entity) {
         return Wishlist.builder()
-                .clientId(entity.getClientId())
+                .clientId(entity.getCustomerId())
                 .products(entity.getProducts().stream()
                         .map(productEntity -> Product.builder()
                                 .id(productEntity.getId())

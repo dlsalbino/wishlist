@@ -1,5 +1,6 @@
 package com.azusah.wishlist.core.domain.entity;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Product {
@@ -7,7 +8,7 @@ public class Product {
     private final String id;
     private final String name;
     private final String image;
-    private final String value;
+    private final BigDecimal value;
     private final String link;
 
     public Product(Builder builder) {
@@ -34,7 +35,7 @@ public class Product {
         return image;
     }
 
-    public String getValue() {
+    public BigDecimal getValue() {
         return value;
     }
 
@@ -74,7 +75,7 @@ public class Product {
         private String id;
         private String name;
         private String image;
-        private String value;
+        private BigDecimal value;
         private String link;
 
         public Builder id(String id) {
@@ -92,7 +93,7 @@ public class Product {
             return this;
         }
 
-        public Builder value(String value) {
+        public Builder value(BigDecimal value) {
             this.value = value;
             return this;
         }

@@ -6,5 +6,5 @@ import java.util.Set;
 
 public interface ListAllProductsUseCase {
 
-    Set<Product> execute(String userId);
+    Set<Product> execute(String customerId);
 }

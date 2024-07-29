@@ -1,10 +1,14 @@
 package com.azusah.wishlist.infrastructure.exception.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
 public class ErrorResponse {
 
+    @Schema(example = "Error Title", description = "The error's title.")
     private String message;
+    @Schema(example = "Error description.", description = "The reason of the error.")
     private List<String> details;
 
     public ErrorResponse() {

@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -41,11 +42,11 @@ public class AddProductToWishlistUseCaseTest {
                 .id("xyz")
                 .name("xyz")
                 .image("http://image.address.com/12345")
-                .value("12345.00")
+                .value(new BigDecimal("12345.00"))
                 .link("http://e-commerce/products/12345")
                 .build();
 
-        when(persistenceGateway.findWishlistByClient(anyString())).thenReturn(Optional.empty());
+        when(persistenceGateway.findWishlistByCustomer(anyString())).thenReturn(Optional.empty());
 
         var products = new HashSet<Product>();
         products.add(product);
@@ -73,10 +74,10 @@ public class AddProductToWishlistUseCaseTest {
                 .id("xyz")
                 .name("xyz")
                 .image("http://image.address.com/12345")
-                .value("12345.00")
+                .value(new BigDecimal("12345.00"))
                 .link("http://e-commerce/products/12345")
                 .build();
-        when(persistenceGateway.findWishlistByClient(anyString()))
+        when(persistenceGateway.findWishlistByCustomer(anyString()))
                 .thenReturn(Optional.of(new Wishlist(clientId, ProductMock.getProductListWith(4))));
         when(persistenceGateway.addProduct(anyString(), any(Product.class)))
                 .thenReturn(new Wishlist(clientId, ProductMock.getProductListWith(5)));
@@ -103,11 +104,11 @@ public class AddProductToWishlistUseCaseTest {
                 .id("xyz")
                 .name("xyz")
                 .image("http://image.address.com/12345")
-                .value("12345.00")
+                .value(new BigDecimal("12345.00"))
                 .link("http://e-commerce/products/12345")
                 .build();
 
-        when(persistenceGateway.findWishlistByClient(anyString()))
+        when(persistenceGateway.findWishlistByCustomer(anyString()))
                 .thenReturn(Optional.of(new Wishlist(clientId, ProductMock.getProductListWith(20))));
 
         //when | then

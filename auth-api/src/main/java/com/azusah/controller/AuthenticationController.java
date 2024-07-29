@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1/auth")
-public class AuthenticationController {
+public class AuthenticationController implements AuthenticationControllerSwaggerDoc {
 
     private static final Logger log = LogManager.getLogger(AuthenticationController.class);
     private final AuthenticationService authenticationService;
@@ -22,6 +22,7 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<TokenResponse> login(Authentication authentication) {
         log.info("START: Token request");

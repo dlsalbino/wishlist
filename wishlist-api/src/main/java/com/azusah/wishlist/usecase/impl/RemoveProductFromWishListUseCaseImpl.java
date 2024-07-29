@@ -1,6 +1,5 @@
 package com.azusah.wishlist.usecase.impl;
 
-import com.azusah.wishlist.core.domain.entity.Product;
 import com.azusah.wishlist.core.domain.entity.Wishlist;
 import com.azusah.wishlist.gateway.PersistenceGateway;
 import com.azusah.wishlist.usecase.RemoveProductFromWishlistUseCase;
@@ -16,7 +15,7 @@ public class RemoveProductFromWishListUseCaseImpl implements RemoveProductFromWi
     }
 
     @Override
-    public Wishlist execute(Product product, String userId) {
-        return persistenceGateway.removeProduct(userId, product);
+    public Wishlist execute(String customerId, String productId) {
+        return persistenceGateway.removeProduct(customerId, productId);
     }
 }
