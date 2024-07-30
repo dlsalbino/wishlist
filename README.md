@@ -28,7 +28,8 @@ The app will start running at <http://localhost:8080>.
 ## Explore Rest APIs
 The app defines following these API's endpoints:
 
-POST /api/wishlist/v1/auth
+POST /api/wishlist/v1/auth  
+In `Authorization` you can use 'username:password' or 'thor:playboy' encrypted by Base64 algorithm. ;-)
 ```bash 
 curl --location --request POST 'http://localhost:8080/api/wishlist/v1/auth' \
 --header 'Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ='
@@ -41,9 +42,9 @@ curl --location 'http://localhost:8080/api/wishlist/v1/:customerId/products' \
 --header 'Content-Type: application/json' \
 --data '{
     "id": "fe343ffe-528a-4499-925a-bdbe2295a46b",
-    "name": "livro",
-    "image": "https://ecommerce.com/produts/images/livro.png",
-    "value": "10.00",
+    "name": "book",
+    "image": "https://ecommerce.com/produts/images/book.png",
+    "value": 10.00,
     "link": "https://ecommerce.com/productId"
 }'
 ```
@@ -61,15 +62,4 @@ curl --location --request DELETE 'http://localhost:8080/api/wishlist/v1/:custome
 ```
 
 ## Swagger Documentation
-When the application is running you'll can find the Swagger Documentation [here](http://localhost:8080/api/wishlist/swagger-ui/index.html).
-
-
-## Technical Debts and Improvements
-- [ ] Implement endpoint to verify if a product is on wishlist
-- [X] Secure API
-- [ ] Other Unit Tests
-- [ ] Integration Tests
-- [X] OpenAPI/Swagger Documentation
-- [ ] GitHub Actions Integrations
-- [ ] Observability issues
-- [ ] ...
+Another way to explore the API is, when it is running you use the Swagger Documentation existent [here](http://localhost:8080/api/wishlist/swagger-ui/index.html).
